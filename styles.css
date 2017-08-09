@@ -1,0 +1,103 @@
+html {
+    background: #C13B3F;
+    font-family: 'Roboto', sans-serif;
+}
+.main-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+}
+.question-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    padding: 30px 0;
+}
+.question-number {
+    font-size: 36px;
+    font-weight: 100;
+    text-transform: uppercase;
+    color: #9D1D21;
+    text-align: center;
+    padding: 20px 0;
+}
+.under-card-top {
+    background: #EBEBEB;
+    height: 100px;
+    border-radius: 15px;
+    margin-bottom: -90px;
+    width: calc(100% - 40px);
+    align-self: center;
+    box-shadow: rgba(40,5,5,.3) 0 12px 30px;
+}
+.card-container {
+    background: white;
+    color: #444443;
+    text-align: center;
+    padding: 60px;
+    border-radius: 15px;
+    box-shadow: rgba(40,5,5,.3) 0 12px 30px;
+    z-index: 3;
+}
+.question {
+    font-size: 30px;
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.choices {
+    font-size: 24px;
+    font-weight: 300;
+    width: 100%;
+}
+.choices > div {
+    padding: 10px 0;
+    border-radius: 1000px;
+}
+.choices > div:hover {
+    background: #EBEBEB;
+}
+.correct {
+    background: #1DE9B6;
+    color: white;
+    font-weight: 500;
+}
+.incorrect {
+    color: #F1474C;
+}
+.under-card-bottom {
+    background: #9D1D21;
+    color: white;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 30px 60px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: calc(100% - 40px - 120px);
+    align-self: center;
+    text-align: center;
+    line-height: 1.3;
+    box-shadow: rgba(40,5,5,.3) 0 12px 30px;
+}
+.icon {
+    color: #C13B3F;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+.learn-more {
+    display: inline-block;
+    margin-top: 20px;
+}
+.learn-more a {
+    font-weight: 300;
+    color: white;
+    text-decoration: none;
+}
+.learn-more .fa {
+    padding-left: 4px;
+}
