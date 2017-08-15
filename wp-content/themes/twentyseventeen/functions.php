@@ -457,7 +457,7 @@ function twentyseventeen_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	wp_enqueue_script( 'sepsis_quiz', get_theme_file_uri( '/sepsis-quiz.js'));
+	wp_enqueue_script( 'sepsis_quiz', get_theme_file_uri( '/assets/js/sepsisQuiz.js'));
 	wp_enqueue_style( 'sepsis-style', get_theme_file_uri( '/assets/css/sepsis-quiz.css' ));
 }
 add_action( 'wp_enqueue_scripts', 'twentyseventeen_scripts' );
