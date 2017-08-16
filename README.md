@@ -26,3 +26,7 @@ The files that need to be added to Sepsis Alliance's theme are:
 3. [sepsis-quiz.css](twentyseventeen/assets/css/sepsis-quiz.css)
 
 Their [functions.php](twentyseventeen/functions.php) file also needs to be updated with the code inside the `if ( is_page_template('sepsis-quiz.php'))` code block.
+
+## Design Prototype
+
+Check it out on [Invision](https://invis.io/H7CKT3JW2#/244849159_Sepsis-Quiz_Final_1)
