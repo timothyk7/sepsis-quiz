@@ -1,19 +1,9 @@
 <?php
 /**
- * Template Name: 'SepsisQuiz'
- * The template for displaying the footer
- *
- * Contains the closing of the #content div and all content after.
- *
- * @link       https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package    WordPress
- * @subpackage Twenty_Seventeen
- * @since      1.0
- * @version    1.2
+ * Template Name: SepsisQuiz
  */
+wp_head(); ?>
 
-get_header(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,3 +48,6 @@ get_header(); ?>
 
 </body>
 </html>
+
+<?php wp_footer();
+
