@@ -3,18 +3,6 @@ class SepsisQuiz {
     this.questions = SepsisQuiz.buildQuestions(questions)
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions)
     this.score = 0
-
-    this.status = 'new'
-    this.currentQuestionIndex = 0
-
-  }
-
-  /**
-   * Returns the current question
-   * @returns {*}
-   */
-  get currentQuestion() {
-    return this.questions[this.currentQuestionIndex]
   }
 
   static renderChoices(choices = []) {
@@ -62,13 +50,8 @@ class SepsisQuiz {
 
     /*all of the  above*/
     if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
-      answer = 'all of the above'
+      answer = 'All of the above.'
       choices = wrongAnswers.concat(answer)
-    }
-
-    /* true or false */
-    else if (typeof answer === 'boolean') {
-      choices = ['true', 'false']
     }
 
     /* multiple choice*/
@@ -76,9 +59,9 @@ class SepsisQuiz {
       choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)) // shuffle the array
     }
 
-    /* true or false*/
-    else if (typeof wrongAnswers === 'boolean') {
-      choices = ['true', 'false']
+    /* true or false */
+    else if (typeof answer === 'boolean') {
+      choices = ['True.', 'False.']
     }
 
     return choices
@@ -110,16 +93,6 @@ class SepsisQuiz {
   }
 
   /**
-   * Finishes the quiz
-   */
-  finish() {
-    if (this.currentQuestionIndex < this.questions.length - 1) {
-      throw Error(`${this.questions.length - 1 - this.currentQuestionIndex } questions left unanswered`)
-    }
-    this.status = 'finished'
-  }
-
-  /**
    * Processes the current question and then moves onto the next question
    * @param userInput
    */
@@ -138,30 +111,12 @@ class SepsisQuiz {
   }
 
   /**
-   * Resets quiz state (ie isSubmitReady...)
-   */
-  reset() {
-    this.score = 0
-    this.status = 'new'
-    console.log('reset')
-  }
-
-  /**
    *
    * @param evt
    */
   handleOnSelect(evt) {
     const val = evt.target.value
     this.processQuestion(val)
-  }
-
-  handleOnNext(evt) {
-    this.currentQuestionIndex += this.currentQuestionIndex < this.questions.length - 1
-  }
-
-  handleOnPrevious(evt) {
-    this.currentQuestionIndex -= this.currentQuestionIndex > 0
-
   }
 
 }
@@ -208,8 +163,6 @@ jQuery(document).ready(function($) {
   function render(sepsisQuiz) {
     /* ------ status ------ */
     $('#score').html(sepsisQuiz.score);
-    $('#status').html(sepsisQuiz.status);
-    $('#current_question_id').html(sepsisQuiz.currentQuestionIndex);
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
@@ -217,16 +170,7 @@ jQuery(document).ready(function($) {
   render(sepsisQuiz);
 
   /* ------ event handlers ------ */
-  $('#reset').on('click', function (e) {
-    console.log('reset');
-    sepsisQuiz.reset();
-    render(sepsisQuiz);
-  });
-  $('#submit').on('click', function (e) {
-    var userInput = $('#userInput').val;
-    sepsisQuiz.processQuestion(userInput);
-    render(sepsisQuiz);
-  });
+  // :O
 
   console.log('quiz:', sepsisQuiz);
 });
