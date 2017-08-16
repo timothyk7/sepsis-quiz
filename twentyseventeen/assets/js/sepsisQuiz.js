@@ -98,7 +98,7 @@ var SepsisQuiz = function () {
       var choices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return choices.reduce(function (html, choice) {
-        return html + ' <div>' + choice + '</div>';
+        return html + ' <div class="choice">' + choice + '</div>';
       }, '<div id="choices" class="choices">') + '</div>';
     }
   }, {

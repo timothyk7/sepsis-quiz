@@ -19,7 +19,7 @@ class SepsisQuiz {
 
   static renderChoices(choices = []) {
     return choices.reduce((html, choice) => {
-      return `${html} <div>${choice}</div>`
+      return `${html} <div class="choice">${choice}</div>`
     }, `<div id="choices" class="choices">`) + `</div>`
   }
 

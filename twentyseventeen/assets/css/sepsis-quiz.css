@@ -60,7 +60,7 @@ body {
     padding: 10px 0;
     border-radius: 1000px;
 }
-.choices > div:hover {
+.choices > div.choice:hover {
     background: #EBEBEB;
 }
 .correct {
