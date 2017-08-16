@@ -28,19 +28,19 @@ class SepsisQuiz {
   /**
    *
    * @param answer
-   * @param distractors
+   * @param wrongAnswers
    * @param q
    * @returns {Array}
    * @private
    */
-  static buildChoices(answer, distractors) {
+  static buildChoices(answer, wrongAnswers) {
 
     let choices = []
 
     /*all of the  above*/
-    if (typeof answer === 'boolean' && distractors instanceof Array) {
+    if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
       answer = 'all of the above'
-      choices = distractors.concat(answer)
+      choices = wrongAnswers.concat(answer)
     }
 
     /* true or false */
@@ -49,12 +49,12 @@ class SepsisQuiz {
     }
 
     /* multiple choice*/
-    else if (distractors instanceof Array) {
-      choices = SepsisQuiz.shuffleArray(distractors.concat(answer)) // shuffle the array
+    else if (wrongAnswers instanceof Array) {
+      choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)) // shuffle the array
     }
 
     /* true or false*/
-    else if (typeof distractors === 'boolean') {
+    else if (typeof wrongAnswers === 'boolean') {
       choices = ['true', 'false']
     }
 
@@ -66,11 +66,11 @@ class SepsisQuiz {
    * @param questions
    */
   static buildQuestions(questions) {
-    if (!questions || !questions instanceof Array) {
+    if (!questions || !(questions instanceof Array)) {
       return
     }
     return questions.map(q => {
-      q.choices = Object.assign([], SepsisQuiz.buildChoices(q.answer, q.distractors))
+      q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || []
       q.renderedChoices = SepsisQuiz.renderChoices(q.choices)
 
       return q
@@ -149,17 +149,36 @@ class SepsisQuiz {
 
 
 
-(function( $ ) {
+jQuery(document).ready(function($) {
 
-  var questions = [{
-    stem: '1+1=?',
-    distractors: [1, 10, 5],
-    answer: 2
-  }, {
-    stem: 'Who is not a Kardashian',
-    distractors: ['karl', 'kip', 'kyle', 'kevin'],
-    answer: true
-  }];
+  var questions = [
+    {
+      questionText: "About how many people in the U.S. die each year because of sepsis?",
+      wrongAnswers: [
+        "45,000",
+        "1,200,000",
+        "10,000",
+      ],
+      answer: "258,000",
+      learnMore: {
+        text: "Every two minutes, a life is lost to sepsis in the U.S., totaling over a quarter million people every year. That number jumps to an estimated 8 million across the globe.",
+        link: "http://www.sepsis.org/resources/diagnosed-with-sepsis/",
+      },
+    },
+    {
+      questionText: "What is sepsis?",
+      wrongAnswers: [
+        "A local infection, such as cellulitis or appendicitis.",
+        "An infection in the blood.",
+        "A contagious disease.",
+      ],
+      answer: "Your body's toxic response to an infection.",
+      learnMore: {
+        text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
+        link: "http://www.sepsis.org/sepsis/definition/",
+      },
+    },
+  ];
 
   var sepsisQuiz = new SepsisQuiz(questions);
 
@@ -169,10 +188,8 @@ class SepsisQuiz {
     $('#status').html(sepsisQuiz.status);
     $('#current_question_id').html(sepsisQuiz.currentQuestionIndex);
 
-    /* ------ current question------ */
-    $('#question').html(sepsisQuiz.currentQuestion.stem);
-    $('#description').html(sepsisQuiz.currentQuestion.description);
-    $('#choices').html(sepsisQuiz.currentQuestion.renderedChoices);
+    /* ------ questions ------ */
+    $('#questions_container').html(sepsisQuiz.renderedQuestions);
   }
   render(sepsisQuiz);
 
@@ -189,4 +206,4 @@ class SepsisQuiz {
   });
 
   console.log('quiz:', sepsisQuiz);
-})( jQuery );
+});

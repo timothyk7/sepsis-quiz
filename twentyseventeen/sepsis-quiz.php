@@ -33,8 +33,7 @@ wp_head(); ?>
         </div>
         <div class="under-card-bottom">
             <div class="icon"><i class="fa fa-heartbeat" aria-hidden="true"></i></div>
-            <div>Sepsis is not an infection and is not contagious. The infection that triggered sepsis could be
-                contagious but sepsis itself is not.
+            <div>Sepsis is not an infection and is not contagious. The infection that triggered sepsis could be contagious but sepsis itself is not.
             </div>
             <div class="learn-more"><a href="" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a></div>
