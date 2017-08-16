@@ -28,6 +28,18 @@ class SepsisQuiz {
       return `
         ${html}
         <div id="question-header" class="question-number">Question <span id="question-number">${idx + 1}</span></div>
+        <div class="under-card-top"></div>
+        <div class="card-container">
+          <div id="question" class="question">${question.questionText}</div>
+          <div id="choices" class="choices">
+            ${question.renderedChoices}
+          </div>
+        </div>
+        <div class="under-card-bottom">
+          <div class="icon"><i class="fa fa-heartbeat" aria-hidden="true"></i></div>
+          <div>${question.learnMore.text}</div>
+          <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
+        </div>
       `
     }, '')
   }
