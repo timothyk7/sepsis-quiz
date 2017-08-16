@@ -9,35 +9,45 @@ wp_head(); ?>
 <head>
     <meta charset="UTF-8">
     <title>Sepsis</title>
+    <link href="http://meyerweb.com/eric/tools/css/reset/reset.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,500" rel="stylesheet">
+    <link href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
 
 <div class="main-container">
-
-
-    <div id=""></div>
-
     <div id="questions_container" class="question-container">
         <!-- START EXAMPLE -->
         <!-- The contents of this div get replaced by Javascript -->
-        <div id="question-header" class="question-number">Question <span id="question-number"></span></div>
-        <div class="under-card-top"></div>
-        <div class="card-container">
-            <div id="question" class="question">What is sepsis?</div>
-            <div id="choices" class="choices">
-                <div>An infection in the blood.</div>
-                <div>A local infection, such as cellulitis or appendicitis.</div>
-                <div class="correct">A toxic reaction to an infection.</div>
-                <div class="incorrect">A chronic disease.</div>
+
+        <!-- QUESTION -->
+        <div class="question-container">
+            <div class="question-number">Question #</div>
+            <div class="under-card-top under-card-top-hide"></div>
+
+            <!-- MAIN CARD -->
+            <div class="card-container">
+                  <div class="question">Question</div>
+                  <div class="choices">
+                        <div>Choice A</div>
+                        <div>Choice B</div>
+                        <div>Choice C</div>
+                        <div>Choice D</div>
+                  </div>
+            </div>
+
+            <!-- BOTTOM CARD -->
+            <div class="under-card-bottom-container">
+                <div class="under-card-bottom under-card-bottom-reveal">
+                    <div>Fact</div>
+                    <div class="learn-more"><a href="" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </a></div>
+                </div>
             </div>
         </div>
-        <div class="under-card-bottom">
-            <div class="icon"><i class="fa fa-heartbeat" aria-hidden="true"></i></div>
-            <div>Sepsis is not an infection and is not contagious. The infection that triggered sepsis could be contagious but sepsis itself is not.
-            </div>
-            <div class="learn-more"><a href="" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
-        </div>
+        <!-- END OF QUESTION -->
+
         <!-- END EXAMPLE -->
     </div>
 </div>
