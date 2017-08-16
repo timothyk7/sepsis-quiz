@@ -117,6 +117,7 @@ BOTTOM CARD CONTENTS
     font-weight: 300;
     color: white;
     text-decoration: none;
+    cursor: pointer;
 }
 .learn-more .fa {
     padding-left: 4px;
