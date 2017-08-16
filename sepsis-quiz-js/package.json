@@ -1,8 +1,10 @@
 {
-  "name": "Sepsis Quiz",
+  "name": "SepsisQuizJS",
   "version": "0.0.1",
   "main": "src/main.js",
-  
+  "scripts": {
+    "sync": "node_modules/.bin/babel src -d ../twentyseventeen/assets/js/ --compilers es2015"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^5.8.25",
