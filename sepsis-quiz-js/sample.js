@@ -25,12 +25,8 @@ function render (sepsisQuiz) {
   /* ------ current question------ */
   $('#question').html(sepsisQuiz.currentQuestion.stem)
   $('#description').html(sepsisQuiz.currentQuestion.description)
-
   $('#choices').html( sepsisQuiz.currentQuestion.renderedChoices )
 
-  $('[name=choice]').each( (i) => {
-    const _self = $(['name=choice'])[i]
-  })
 
 }
 render(sepsisQuiz)

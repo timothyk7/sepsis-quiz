@@ -1,5 +1,3 @@
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -127,18 +125,18 @@ var SepsisQuiz = function () {
 
       /* true or false */
       else if (typeof answer === 'boolean') {
-        choices = ['true', 'false'];
-      }
+          choices = ['true', 'false'];
+        }
 
-      /* multiple choice*/
-      else if (distractors instanceof Array) {
-        choices = SepsisQuiz.shuffleArray(distractors.concat(answer)); // shuffle the array
-      }
+        /* multiple choice*/
+        else if (distractors instanceof Array) {
+            choices = SepsisQuiz.shuffleArray(distractors.concat(answer)); // shuffle the array
+          }
 
-      /* true or false*/
-      else if (typeof distractors === 'boolean') {
-        choices = ['true', 'false'];
-      }
+          /* true or false*/
+          else if (typeof distractors === 'boolean') {
+              choices = ['true', 'false'];
+            }
 
       return choices;
     }
@@ -179,3 +177,45 @@ var SepsisQuiz = function () {
 
   return SepsisQuiz;
 }();
+
+(function ($) {
+
+  var questions = [{
+    stem: '1+1=?',
+    distractors: [1, 10, 5],
+    answer: 2
+  }, {
+    stem: 'Who is not a Kardashian',
+    distractors: ['karl', 'kip', 'kyle', 'kevin'],
+    answer: true
+  }];
+
+  var sepsisQuiz = new SepsisQuiz(questions);
+
+  function render(sepsisQuiz) {
+    /* ------ status ------ */
+    $('#score').html(sepsisQuiz.score);
+    $('#status').html(sepsisQuiz.status);
+    $('#current_question_id').html(sepsisQuiz.currentQuestionIndex);
+
+    /* ------ current question------ */
+    $('#question').html(sepsisQuiz.currentQuestion.stem);
+    $('#description').html(sepsisQuiz.currentQuestion.description);
+    $('#choices').html(sepsisQuiz.currentQuestion.renderedChoices);
+  }
+  render(sepsisQuiz);
+
+  /* ------ event handlers ------ */
+  $('#reset').on('click', function (e) {
+    console.log('reset');
+    sepsisQuiz.reset();
+    render(sepsisQuiz);
+  });
+  $('#submit').on('click', function (e) {
+    var userInput = $('#userInput').val;
+    sepsisQuiz.processQuestion(userInput);
+    render(sepsisQuiz);
+  });
+
+  console.log('quiz:', sepsisQuiz);
+})(jQuery);

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "src/main.js",
   "scripts": {
-    "sync": "node_modules/.bin/babel src -d ../twentyseventeen/assets/js/ --compilers es2015"
+    "sync": "node_modules/.bin/babel src -d ../twentyseventeen/assets/js/ --compilers es2016"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

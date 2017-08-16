@@ -1,5 +1,7 @@
 ## Sepsis Quiz Library for Wordpress
 
+node v6.11.1
+
 1. build the script:
 `babel src sepsisQuiz.js --preset es2016`
 
