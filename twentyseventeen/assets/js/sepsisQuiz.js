@@ -6,7 +6,7 @@ var SepsisQuiz = function () {
   function SepsisQuiz(questions) {
     _classCallCheck(this, SepsisQuiz);
 
-    this.questions = SepsisQuiz.buildQuestions(this.questions);
+    this.questions = SepsisQuiz.buildQuestions(questions);
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions);
     this.score = 0;
 
@@ -97,7 +97,6 @@ var SepsisQuiz = function () {
     value: function renderChoices() {
       var choices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-
       return choices.reduce(function (html, choice) {
         return html + ' <div>' + choice + '</div>';
       }, '<div id="choices" class="choices">') + '</div>';
@@ -107,7 +106,9 @@ var SepsisQuiz = function () {
     value: function renderQuestions() {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-      return '<p>Michael was here</p>';
+      return questions.reduce(function (html, question, idx) {
+        return '\n        ' + html + '\n        <div id="question-header" class="question-number">Question <span id="question-number">' + (idx + 1) + '</span></div>\n      ';
+      }, '');
     }
 
     /**

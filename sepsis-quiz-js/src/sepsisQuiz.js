@@ -1,6 +1,6 @@
 class SepsisQuiz {
   constructor(questions) {
-    this.questions = SepsisQuiz.buildQuestions(this.questions)
+    this.questions = SepsisQuiz.buildQuestions(questions)
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions)
     this.score = 0
 
@@ -24,7 +24,12 @@ class SepsisQuiz {
   }
 
   static renderQuestions(questions = []) {
-    return `<p>Michael was here</p>`
+    return questions.reduce((html, question, idx) => {
+      return `
+        ${html}
+        <div id="question-header" class="question-number">Question <span id="question-number">${idx + 1}</span></div>
+      `
+    }, '')
   }
 
 
