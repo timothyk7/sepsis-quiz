@@ -1,7 +1,7 @@
 class SepsisQuiz {
   constructor(questions) {
-    this.questions = questions || []
-    this.renderedQuestions = SepsisQuiz.buildQuestions(this.questions)
+    this.questions = SepsisQuiz.buildQuestions(this.questions)
+    this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions)
     this.score = 0
 
     this.status = 'new'
@@ -19,9 +19,12 @@ class SepsisQuiz {
 
   static renderChoices(choices = []) {
     return choices.reduce((html, choice) => {
-      return `${html} <button name="choice" value=${choice} >${choice}</button>`
+      return `${html} <div>${choice}</div>`
+    }, `<div id="choices" class="choices">`) + `</div>`
+  }
 
-    }, '')
+  static renderQuestions(questions = []) {
+    return `<p>Michael was here</p>`
   }
 
 
@@ -67,7 +70,7 @@ class SepsisQuiz {
    */
   static buildQuestions(questions) {
     if (!questions || !(questions instanceof Array)) {
-      return
+      return []
     }
     return questions.map(q => {
       q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || []

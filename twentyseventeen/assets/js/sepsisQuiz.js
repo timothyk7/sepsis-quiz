@@ -6,8 +6,8 @@ var SepsisQuiz = function () {
   function SepsisQuiz(questions) {
     _classCallCheck(this, SepsisQuiz);
 
-    this.questions = questions || [];
-    this.renderedQuestions = SepsisQuiz.buildQuestions(this.questions);
+    this.questions = SepsisQuiz.buildQuestions(this.questions);
+    this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions);
     this.score = 0;
 
     this.status = 'new';
@@ -97,9 +97,17 @@ var SepsisQuiz = function () {
     value: function renderChoices() {
       var choices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
+
       return choices.reduce(function (html, choice) {
-        return html + ' <button name="choice" value=' + choice + ' >' + choice + '</button>';
-      }, '');
+        return html + ' <div>' + choice + '</div>';
+      }, '<div id="choices" class="choices">') + '</div>';
+    }
+  }, {
+    key: 'renderQuestions',
+    value: function renderQuestions() {
+      var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      return '<p>Michael was here</p>';
     }
 
     /**
@@ -150,10 +158,10 @@ var SepsisQuiz = function () {
     key: 'buildQuestions',
     value: function buildQuestions(questions) {
       if (!questions || !(questions instanceof Array)) {
-        return;
+        return [];
       }
       return questions.map(function (q) {
-        q.choices = Object.assign([], SepsisQuiz.buildChoices(q.answer, q.wrongAnswers));
+        q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || [];
         q.renderedChoices = SepsisQuiz.renderChoices(q.choices);
 
         return q;
@@ -181,20 +189,20 @@ var SepsisQuiz = function () {
 jQuery(document).ready(function ($) {
 
   var questions = [{
-    questionText: 'About how many people in the U.S. die each year because of sepsis?',
-    wrongAnswers: ['45,000', '1,200,000', '10,000'],
-    answer: '258,000',
+    questionText: "About how many people in the U.S. die each year because of sepsis?",
+    wrongAnswers: ["45,000", "1,200,000", "10,000"],
+    answer: "258,000",
     learnMore: {
-      text: 'Every two minutes, a life is lost to sepsis in the U.S., totaling over a quarter million people every year. That number jumps to an estimated 8 million across the globe.',
-      link: 'http://www.sepsis.org/resources/diagnosed-with-sepsis/'
+      text: "Every two minutes, a life is lost to sepsis in the U.S., totaling over a quarter million people every year. That number jumps to an estimated 8 million across the globe.",
+      link: "http://www.sepsis.org/resources/diagnosed-with-sepsis/"
     }
   }, {
-    questionText: 'What is sepsis?',
-    wrongAnswers: ['A local infection, such as cellulitis or appendicitis.', 'An infection in the blood.', 'A contagious disease.'],
-    answer: 'Your body’s toxic response to an infection.',
+    questionText: "What is sepsis?",
+    wrongAnswers: ["A local infection, such as cellulitis or appendicitis.", "An infection in the blood.", "A contagious disease."],
+    answer: "Your body's toxic response to an infection.",
     learnMore: {
-      text: 'More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It’s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
-      link: 'http://www.sepsis.org/sepsis/definition/'
+      text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
+      link: "http://www.sepsis.org/sepsis/definition/"
     }
   }];
 
@@ -207,7 +215,7 @@ jQuery(document).ready(function ($) {
     $('#current_question_id').html(sepsisQuiz.currentQuestionIndex);
 
     /* ------ questions ------ */
-    $('#questions_container').html("<p>Hi it's Michael</p>");
+    $('#questions_container').html(sepsisQuiz.renderedQuestions);
   }
   render(sepsisQuiz);
 
