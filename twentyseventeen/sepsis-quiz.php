@@ -18,8 +18,6 @@ wp_head(); ?>
 
     <div id=""></div>
 
-    <div style="text-align: right" ><button onClick="ctrl.nextQuestion()">nExT!</button></div>
-
     <div id="questions_container" class="question-container">
         <div id="question-header" class="question-number">Question <span id="question-number"></span></div>
         <div class="under-card-top"></div>
