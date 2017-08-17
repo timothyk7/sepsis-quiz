@@ -91,7 +91,6 @@ var SepsisQuiz = function () {
           var none = 'None of the above.';
           var idx = choices.indexOf(none);
           if (idx > -1) {
-            console.log('hi');
             choices.splice(idx, 1);
             choices.push(none);
           }
