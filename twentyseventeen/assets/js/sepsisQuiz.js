@@ -80,7 +80,7 @@ var SepsisQuiz = function () {
       /*all of the  above*/
       if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
         answer = 'All of the above.';
-        choices = wrongAnswers.concat(answer);
+        choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
       }
 
       /* multiple choice*/
