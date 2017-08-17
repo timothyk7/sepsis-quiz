@@ -86,6 +86,15 @@ var SepsisQuiz = function () {
       /* multiple choice*/
       else if (wrongAnswers instanceof Array) {
           choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
+
+          // Hack to deal with our one none of the above (it's not the answer!)
+          var none = 'None of the above.';
+          var idx = choices.indexOf(none);
+          if (idx > -1) {
+            console.log('hi');
+            choices.splice(idx, 1);
+            choices.push(none);
+          }
         }
 
         /* true or false */
