@@ -12,6 +12,22 @@ var SepsisQuiz = function () {
   }
 
   _createClass(SepsisQuiz, [{
+    key: 'renderShareBlock',
+    value: function renderShareBlock(tweet) {
+      var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
+      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div>Score: ' + this.score + '</div>\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
+    }
+
+    /**
+     *
+     * @param answer
+     * @param wrongAnswers
+     * @param q
+     * @returns {Array}
+     * @private
+     */
+
+  }, {
     key: 'processQuestion',
 
 
@@ -61,16 +77,6 @@ var SepsisQuiz = function () {
         return '\n        ' + html + '\n          <div class="question-container">\n          <div class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
-
-    /**
-     *
-     * @param answer
-     * @param wrongAnswers
-     * @param q
-     * @returns {Array}
-     * @private
-     */
-
   }, {
     key: 'buildChoices',
     value: function buildChoices(answer, wrongAnswers) {
@@ -133,6 +139,9 @@ var SepsisQuiz = function () {
   return SepsisQuiz;
 }();
 
+// Loads code on screen
+
+
 jQuery(document).ready(function ($) {
 
   var questions = [{
@@ -148,8 +157,16 @@ jQuery(document).ready(function ($) {
     wrongAnswers: ["A local infection, such as cellulitis or appendicitis.", "An infection in the blood.", "A contagious disease."],
     answer: "Your body's toxic response to an infection.",
     learnMore: {
-      text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
+      text: "As many as 92% of sepsis cases come from the community, not the hospital. That means sepsis can develop from any type of infection including a UTI, strep throat, flu, pneumonia, and more. In fact, any time your body has a break in the skin, like from a cut or even a piercing, there’s a chance it could cause an infection. Preventing and treating infections as soon as they develop are key to helping prevent sepsis.",
       link: "http://www.sepsis.org/sepsis/definition/"
+    }
+  }, {
+    questionText: "Sepsis can develop from",
+    wrongAnswers: ["A cut on your finger.", "A mosquito bite.", "A tattoo.", "A urinary tract infection (UTI)"],
+    answer: true,
+    learnMore: {
+      text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
+      link: "http://www.sepsis.org/sepsis-and/"
     }
   }];
 
@@ -161,6 +178,13 @@ jQuery(document).ready(function ($) {
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
+
+    /* ------ share ------ */
+    var tweet = {
+      text: "Share Awareness",
+      url: "http://www.sepsis.org/"
+    };
+    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
   render(sepsisQuiz);
 

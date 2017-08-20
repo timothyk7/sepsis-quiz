@@ -35,6 +35,30 @@ class SepsisQuiz {
     }, '')
   }
 
+  renderShareBlock(tweet) {
+    var twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet.text)}${tweet.url ? `&url=${encodeURIComponent(tweet.url)}` : ''}`;
+    return `
+    <div class="under-card-top"></div>
+    <div class="card-container">
+      <div>Score: ${this.score}</div>
+      <div class="share">Share</div>
+        <div class="choices">
+          <div>FaceBook</div>
+            <a class="twitter-button" href=${twitterLink} target="_blank">
+                      Twitter</a>
+          </div>
+        </div>
+      <div class="under-card-bottom-container">
+        <div class="under-card-bottom">
+          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>
+          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
 
   /**
    *
@@ -126,7 +150,7 @@ class SepsisQuiz {
 
 
 
-
+// Loads code on screen
 jQuery(document).ready(function($) {
 
   var questions = [
@@ -152,8 +176,22 @@ jQuery(document).ready(function($) {
       ],
       answer: "Your body's toxic response to an infection.",
       learnMore: {
-        text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
+        text: "As many as 92% of sepsis cases come from the community, not the hospital. That means sepsis can develop from any type of infection including a UTI, strep throat, flu, pneumonia, and more. In fact, any time your body has a break in the skin, like from a cut or even a piercing, there’s a chance it could cause an infection. Preventing and treating infections as soon as they develop are key to helping prevent sepsis.",
         link: "http://www.sepsis.org/sepsis/definition/",
+      },
+    },
+    {
+      questionText: "Sepsis can develop from",
+      wrongAnswers: [
+        "A cut on your finger.",
+        "A mosquito bite.",
+        "A tattoo.",
+        "A urinary tract infection (UTI)",
+      ],
+      answer: true,
+      learnMore: {
+        text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
+        link: "http://www.sepsis.org/sepsis-and/",
       },
     },
   ];
@@ -166,6 +204,13 @@ jQuery(document).ready(function($) {
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
+
+    /* ------ share ------ */
+    var tweet = {
+      text: "Share Awareness",
+      url: "http://www.sepsis.org/"
+    }
+    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
   render(sepsisQuiz);
 
