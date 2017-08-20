@@ -157,7 +157,7 @@ jQuery(document).ready(function ($) {
     wrongAnswers: ["A local infection, such as cellulitis or appendicitis.", "An infection in the blood.", "A contagious disease."],
     answer: "Your body's toxic response to an infection.",
     learnMore: {
-      text: "As many as 92% of sepsis cases come from the community, not the hospital. That means sepsis can develop from any type of infection including a UTI, strep throat, flu, pneumonia, and more. In fact, any time your body has a break in the skin, like from a cut or even a piercing, there’s a chance it could cause an infection. Preventing and treating infections as soon as they develop are key to helping prevent sepsis.",
+      text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
       link: "http://www.sepsis.org/sepsis/definition/"
     }
   }, {
