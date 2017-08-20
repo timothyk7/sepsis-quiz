@@ -12,6 +12,22 @@ var SepsisQuiz = function () {
   }
 
   _createClass(SepsisQuiz, [{
+    key: 'renderShareBlock',
+    value: function renderShareBlock(tweet) {
+      var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
+      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
+    }
+
+    /**
+     *
+     * @param answer
+     * @param wrongAnswers
+     * @param q
+     * @returns {Array}
+     * @private
+     */
+
+  }, {
     key: 'processQuestion',
 
 
@@ -61,16 +77,6 @@ var SepsisQuiz = function () {
         return '\n        ' + html + '\n          <div class="question-container">\n          <div class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
-
-    /**
-     *
-     * @param answer
-     * @param wrongAnswers
-     * @param q
-     * @returns {Array}
-     * @private
-     */
-
   }, {
     key: 'buildChoices',
     value: function buildChoices(answer, wrongAnswers) {
@@ -140,6 +146,9 @@ var SepsisQuiz = function () {
 
   return SepsisQuiz;
 }();
+
+// Loads code on screen
+
 
 jQuery(document).ready(function ($) {
 
@@ -233,6 +242,13 @@ jQuery(document).ready(function ($) {
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
+
+    /* ------ share ------ */
+    var tweet = {
+      text: "Share Awareness",
+      url: "http://www.sepsis.org/"
+    };
+    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
   render(sepsisQuiz);
 

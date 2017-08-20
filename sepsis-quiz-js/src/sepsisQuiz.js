@@ -35,6 +35,29 @@ class SepsisQuiz {
     }, '')
   }
 
+  renderShareBlock(tweet) {
+    var twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet.text)}${tweet.url ? `&url=${encodeURIComponent(tweet.url)}` : ''}`;
+    return `
+    <div class="under-card-top"></div>
+    <div class="card-container">
+      <div class="share">Share</div>
+        <div class="choices">
+          <div>FaceBook</div>
+            <a class="twitter-button" href=${twitterLink} target="_blank">
+                      Twitter</a>
+          </div>
+        </div>
+      <div class="under-card-bottom-container">
+        <div class="under-card-bottom">
+          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>
+          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
 
   /**
    *
@@ -134,7 +157,7 @@ class SepsisQuiz {
 
 
 
-
+// Loads code on screen
 jQuery(document).ready(function($) {
 
   var questions = [
@@ -282,6 +305,13 @@ jQuery(document).ready(function($) {
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
+
+    /* ------ share ------ */
+    var tweet = {
+      text: "Share Awareness",
+      url: "http://www.sepsis.org/"
+    }
+    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
   render(sepsisQuiz);
 
