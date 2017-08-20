@@ -40,7 +40,6 @@ class SepsisQuiz {
     return `
     <div class="under-card-top"></div>
     <div class="card-container">
-      <div>Score: ${this.score}</div>
       <div class="share">Share</div>
         <div class="choices">
           <div>FaceBook</div>
