@@ -19,38 +19,31 @@ var SepsisQuiz = function () {
      * Processes the current question and then moves onto the next question
      * @param userInput
      */
-    value: function processQuestion(userInput) {
-      if (!userInput) {
-        return;
+    value: function processQuestion(questionIndex, userInput) {
+      var question = this.questions[questionIndex];
+      if (!userInput || question.userSelected !== undefined) {
+        return null;
       }
-      this.score += userInput === this.currentQuestion.answer;
-      this.currentQuestion.userSelected = userInput;
 
-      var hasUnansweredQuestions = this.currentQuestionIndex < this.questions.length - 1;
-      this.currentQuestionIndex += hasUnansweredQuestions;
+      var isCorrect = userInput === this.questions[questionIndex].answer;
+      this.score += isCorrect;
+      this.questions[questionIndex].userSelected = userInput;
 
-      this.status = hasUnansweredQuestions ? 'pending' : 'finished';
-    }
+      // todo remoeeeee
+      console.log(this.score, this.questions[questionIndex]);
 
-    /**
-     *
-     * @param evt
-     */
-
-  }, {
-    key: 'handleOnSelect',
-    value: function handleOnSelect(evt) {
-      var val = evt.target.value;
-      this.processQuestion(val);
+      return isCorrect;
     }
   }], [{
     key: 'renderChoices',
     value: function renderChoices() {
       var choices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var questionId = arguments[1];
 
-      return choices.reduce(function (html, choice) {
-        return html + ' <div class="choice">' + choice + '</div>';
-      }, '<div id="choices" class="choices">') + '</div>';
+      return choices.reduce(function (html, choice, i) {
+        var id = 'choice-' + i;
+        return html + ' <div class="field"><input id="' + id + '" data-question-id="' + questionId + '" class="choice" value="' + choice + '" type="submit"/></div>';
+      }, '');
     }
   }, {
     key: 'renderQuestions',
@@ -58,7 +51,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div class="question-container">\n          <div class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
 
@@ -107,9 +100,10 @@ var SepsisQuiz = function () {
       if (!questions || !(questions instanceof Array)) {
         return [];
       }
-      return questions.map(function (q) {
+      return questions.map(function (q, index) {
+        q.id = index;
         q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || [];
-        q.renderedChoices = SepsisQuiz.renderChoices(q.choices);
+        q.renderedChoices = SepsisQuiz.renderChoices(q.choices, index);
 
         return q;
       });
@@ -157,15 +151,25 @@ jQuery(document).ready(function ($) {
 
   function render(sepsisQuiz) {
     /* ------ status ------ */
-    $('#score').html(sepsisQuiz.score);
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
+    $('input.choice').bind('click', onSelect);
   }
+
   render(sepsisQuiz);
 
   /* ------ event handlers ------ */
-  // :O
+  function onSelect(e) {
+    var qId = $(e.target).attr('data-question-id');
+    var val = e.target.value;
+
+    var res = sepsisQuiz.processQuestion(qId, val);
+
+    if (res !== null) {
+      $(e.target).addClass(res ? 'correct' : 'incorrect');
+    }
+  }
 
   console.log('quiz:', sepsisQuiz);
 });

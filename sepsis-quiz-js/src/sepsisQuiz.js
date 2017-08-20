@@ -5,10 +5,11 @@ class SepsisQuiz {
     this.score = 0
   }
 
-  static renderChoices(choices = []) {
-    return choices.reduce((html, choice) => {
-      return `${html} <div class="choice">${choice}</div>`
-    }, `<div id="choices" class="choices">`) + `</div>`
+  static renderChoices(choices = [], questionId) {
+    return choices.reduce((html, choice, i) => {
+      const id = `choice-${i}`
+      return `${html} <div class="field"><input id="${id}" data-question-id="${questionId}" class="choice" value="${choice}" type="submit"/></div>`
+    }, '')
   }
 
   static renderQuestions(questions = []) {
@@ -16,7 +17,7 @@ class SepsisQuiz {
       return `
         ${html}
           <div class="question-container">
-          <div class="question-number">Question #${idx + 1}</div>
+          <div id="question-${idx}" class="question-number">Question #${idx + 1}</div>
           <div class="under-card-top"></div>
           <div class="card-container">
             <div class="question">${question.questionText}</div>
@@ -75,13 +76,15 @@ class SepsisQuiz {
     if (!questions || !(questions instanceof Array)) {
       return []
     }
-    return questions.map(q => {
+    return questions.map((q, index )=> {
+      q.id = index
       q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || []
-      q.renderedChoices = SepsisQuiz.renderChoices(q.choices)
+      q.renderedChoices = SepsisQuiz.renderChoices(q.choices, index)
 
       return q
     })
   }
+
 
   /**
    *  Static fucntion to shuffle an array
@@ -96,27 +99,21 @@ class SepsisQuiz {
    * Processes the current question and then moves onto the next question
    * @param userInput
    */
-  processQuestion(userInput) {
-    if (!userInput) {
-      return
+  processQuestion(questionIndex, userInput) {
+    const question = this.questions[questionIndex]
+    if (!userInput || question.userSelected !== undefined) {
+      return null
     }
-    this.score += userInput === this.currentQuestion.answer
-    this.currentQuestion.userSelected = userInput
 
-    const hasUnansweredQuestions = this.currentQuestionIndex < this.questions.length - 1
-    this.currentQuestionIndex += hasUnansweredQuestions
+    const isCorrect = userInput === this.questions[questionIndex].answer
+    this.score += isCorrect
+    this.questions[questionIndex].userSelected = userInput
 
-    this.status = hasUnansweredQuestions ? 'pending' : 'finished'
+    // todo remoeeeee
+    console.log(this.score, this.questions[questionIndex])
 
-  }
+    return isCorrect
 
-  /**
-   *
-   * @param evt
-   */
-  handleOnSelect(evt) {
-    const val = evt.target.value
-    this.processQuestion(val)
   }
 
 }
@@ -162,15 +159,26 @@ jQuery(document).ready(function($) {
 
   function render(sepsisQuiz) {
     /* ------ status ------ */
-    $('#score').html(sepsisQuiz.score);
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
+    $('input.choice').bind('click', onSelect)
   }
+
+
   render(sepsisQuiz);
 
   /* ------ event handlers ------ */
-  // :O
+  function onSelect(e) {
+    const qId = $(e.target).attr('data-question-id')
+    const val = e.target.value
+
+    const res  = sepsisQuiz.processQuestion(qId, val)
+    
+    if (res !== null) {
+      $(e.target).addClass( res ? 'correct' : 'incorrect' )
+    }
+  }
 
   console.log('quiz:', sepsisQuiz);
 });
