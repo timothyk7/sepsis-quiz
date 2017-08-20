@@ -49,7 +49,13 @@ card-container
    width: 100%;
    padding: 30px 0;
 }
-
+.share-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    padding: 30px 0;
+}
 .under-card-bottom-container {
    display: flex;
    justify-content: center;
@@ -153,6 +159,12 @@ MAIN CARD CONTENTS
    background: transparent;
 }
 
+.share {
+    font-size: 30px;
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 30px;
+}
 
 /*
 BOTTOM CARD CONTENTS
@@ -171,6 +183,26 @@ BOTTOM CARD CONTENTS
 
 .learn-more .fa {
    padding-left: 4px;
+}
+
+.share-block {
+    display: inline-block;
+    margin-top: 20px;
+}
+.share-block a {
+    font-weight: 300;
+    color: white;
+    text-decoration: none;
+}
+.share-block .fa {
+    padding-left: 4px;
+}
+
+/*
+BUTTON
+*/
+.twitter-button {
+    background-color: #00aced;
 }
 
 /*

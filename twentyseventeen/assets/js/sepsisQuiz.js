@@ -12,6 +12,22 @@ var SepsisQuiz = function () {
   }
 
   _createClass(SepsisQuiz, [{
+    key: 'renderShareBlock',
+    value: function renderShareBlock(tweet) {
+      var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
+      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
+    }
+
+    /**
+     *
+     * @param answer
+     * @param wrongAnswers
+     * @param q
+     * @returns {Array}
+     * @private
+     */
+
+  }, {
     key: 'processQuestion',
 
 
@@ -54,16 +70,6 @@ var SepsisQuiz = function () {
         return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
-
-    /**
-     *
-     * @param answer
-     * @param wrongAnswers
-     * @param q
-     * @returns {Array}
-     * @private
-     */
-
   }, {
     key: 'buildChoices',
     value: function buildChoices(answer, wrongAnswers) {
@@ -73,12 +79,20 @@ var SepsisQuiz = function () {
       /*all of the  above*/
       if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
         answer = 'All of the above.';
-        choices = wrongAnswers.concat(answer);
+        choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
       }
 
       /* multiple choice*/
       else if (wrongAnswers instanceof Array) {
           choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
+
+          // Hack to deal with our one none of the above (it's not the answer!)
+          var none = 'None of the above.';
+          var idx = choices.indexOf(none);
+          if (idx > -1) {
+            choices.splice(idx, 1);
+            choices.push(none);
+          }
         }
 
         /* true or false */
@@ -127,6 +141,9 @@ var SepsisQuiz = function () {
   return SepsisQuiz;
 }();
 
+// Loads code on screen
+
+
 jQuery(document).ready(function ($) {
 
   var questions = [{
@@ -145,6 +162,70 @@ jQuery(document).ready(function ($) {
       text: "More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It's life threatening and, without the right treatment, can cause organ failure, amputation, and death.",
       link: "http://www.sepsis.org/sepsis/definition/"
     }
+  }, {
+    questionText: "Sepsis can develop from:",
+    wrongAnswers: ["A cut on your finger.", "A mosquito bite.", "A tattoo.", "A urinary tract infection (UTI)."],
+    answer: true,
+    learnMore: {
+      text: "As many as 92% of sepsis cases come from the community, not the hospital. That means sepsis can develop from any type of infection including a UTI, strep throat, flu, pneumonia, and more. In fact, any time your body has a break in the skin, like from a cut or even a piercing, there's a chance it could cause an infection. Preventing and treating infections as soon as they develop are key to helping prevent sepsis.",
+      link: "http://www.sepsis.org/sepsis-and/"
+    }
+  }, {
+    questionText: "All of the following are signs of sepsis EXCEPT:",
+    wrongAnswers: ["Fever or feeling chilled.", "Confusion/difficult to arouse.", 'Extreme pain or discomfort ("worst ever").', "Rapid breathing."],
+    answer: "Slow heart rate.",
+    learnMore: {
+      text: "Less than 1% of Americans can correctly name all the common signs of sepsis, one of which is a rapid heart rate as your heart works to pump blood through your body. You can save a life just by arming yourself by knowing the signs of sepsis.",
+      link: "http://www.sepsis.org/sepsis/symptoms/"
+    }
+  }, {
+    questionText: "Who is at highest risk for developing sepsis?",
+    wrongAnswers: ["Newborn babies.", "People with cancer.", "People over 65 years old."],
+    answer: true,
+    learnMore: {
+      text: "Anyone can develop sepsis, no matter how healthy they are. However, it's especially risky for those with weaker immune systems.",
+      link: "http://www.sepsis.org/sepsis/risk-factors/"
+    }
+  }, {
+    questionText: "When someone has severe sepsis, their chances of survival drop by almost 8% for every _____ that goes by without treatment.",
+    wrongAnswers: ["Minute.", "Day.", "None of the above."],
+    answer: "Hour.",
+    learnMore: {
+      text: "Sepsis can be treated if it's identified early, which prevents it from progressing and leading to extreme consequences like amputation or death. Getting medical attention right away if you suspect sepsis is as important as treating heart attacks and strokes quickly.",
+      link: "http://www.sepsis.org/sepsis/treatment/"
+    }
+  }, {
+    questionText: "Adults older than 65 are _____ times more likely to be hospitalized with sepsis than adults younger than 65.",
+    wrongAnswers: ["5", "20", "27"],
+    answer: "13",
+    learnMore: {
+      text: "Did you know sepsis is the most costly condition billed to Medicare? As people age, their immune systems can't fight off infections as easily, making them at greater risk for developing sepsis. Mary Beth West was 72 when she survived sepsis from a UTI, read her story.",
+      link: "http://www.sepsis.org/faces/mary-beth-west/"
+    }
+  }, {
+    questionText: "Every day, an average of _____ amputations occur because of sepsis.",
+    wrongAnswers: ["10", "52", "29"],
+    answer: "38",
+    learnMore: {
+      text: "Unfortunately, amputation is a very real consequence of sepsis. Blockages inside the blood vessels cause the body's tissue to die which can require amputation. Michael Stolzenberg was 8 years-old when sepsis led to amputation to both his arms and legs. Watch Michael's inspiring story.",
+      link: "http://www.sepsis.org/erin/"
+    }
+  }, {
+    questionText: "Sepsis symptoms can be different for children and adults. Which of the below is a symptom of sepsis in a child?",
+    wrongAnswers: ["High fever (above 100.4 degrees).", "General illness or a previous injury, such as a scrape or cut.", "Very fast or rapid breathing.", "Lethargy or difficulty waking up."],
+    answer: true,
+    learnMore: {
+      text: "Sepsis in children is a problem - more than 75,000 children develop severe sepsis each year in the U.S. and many have lasting complications. If a child has a combination of any of these symptoms, it's important to get medical attention right away. Best rule of thumb? When in doubt, check with your doctor or bring your child to the emergency room for evaluation.",
+      link: "http://www.sepsis.org/sepsis-and/children/"
+    }
+  }, {
+    questionText: "Which of the following is NOT likely to be a complication after surviving sepsis?",
+    wrongAnswers: ["Insomnia.", "Post-traumatic stress disorder (PTSD).", "Decreased mental functioning.", "Amputations."],
+    answer: "Improved memory.",
+    learnMore: {
+      text: "There are more than 1.6 million cases of sepsis every year and survivors often face long-term effects, also known as post-sepsis syndrome, including amputations, anxiety, memory loss, chronic pain and fatigue, and more.",
+      link: "http://www.sepsis.org/life-after-sepsis/"
+    }
   }];
 
   var sepsisQuiz = new SepsisQuiz(questions);
@@ -155,6 +236,13 @@ jQuery(document).ready(function ($) {
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
     $('input.choice').bind('click', onSelect);
+
+    /* ------ share ------ */
+    var tweet = {
+      text: "Share Awareness",
+      url: "http://www.sepsis.org/"
+    };
+    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
 
   render(sepsisQuiz);
