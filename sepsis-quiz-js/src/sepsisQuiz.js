@@ -193,7 +193,7 @@ jQuery(document).ready(function ($) {
       ],
       answer: 'Your body\'s toxic response to an infection.',
       learnMore: {
-        text: 'More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It\'s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
+        text: 'More than 40% of Americans have never heard the word sepsis. It\'s your body\'s extreme and toxic response to an infection. It\'s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
         link: 'http://www.sepsis.org/sepsis/definition/',
       },
     },
