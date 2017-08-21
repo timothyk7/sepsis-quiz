@@ -17,7 +17,6 @@ wp_head(); ?>
 <div id="stats" style="position: sticky; top: 24px;">
     <pre>score: <span id="score"></span>, status: <span id="status"></span>, total_questions: <span id="total_count"></span>, answered_count:<span id="answered_count"></span></pre>
 </div>
-
 <div class="main-container">
     <div id="questions_container" class="question-container">
         <!-- QUESTION -->

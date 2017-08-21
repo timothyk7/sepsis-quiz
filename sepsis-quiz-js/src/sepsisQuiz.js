@@ -11,10 +11,14 @@ class SepsisQuiz {
     this.totalAnsweredQuestions = 0
   }
 
-  static renderChoices(choices = [], questionId) {
-    return choices.reduce((html, choice, i) => {
+  static renderChoices(question) {
+    const answer = question.answer
+
+    return question.choices.reduce((html, choice, i) => {
       const id = `choice-${i}`
-      return `${html} <div class="field"><input id="${id}" data-question-id="${questionId}" class="choice" value="${choice}" type="submit"/></div>`
+      const icon = answer === choice ? 'check' : 'times'
+      return `${html} <div class="field"><label for="id"><i class="fa fa-${icon}" aria-hidden="true"></i>
+</label><input id="${id}" data-question-id="${question.id}" class="choice" value="${choice}" type="submit"/></div>`
     }, '')
   }
 
@@ -22,8 +26,8 @@ class SepsisQuiz {
     return questions.reduce((html, question, idx) => {
       return `
         ${html}
-          <div class="question-container">
-          <div id="question-${idx}" class="question-number">Question ${idx + 1}</div>
+          <div id="question-${idx}" class="question-container">
+          <div class="question-number">Question ${idx + 1}</div>
           <div class="under-card-top"></div>
           <div class="card-container">
             <div class="question">${question.questionText}</div>
@@ -120,7 +124,7 @@ class SepsisQuiz {
     return questions.map((q, index) => {
       q.id = index
       q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || []
-      q.renderedChoices = SepsisQuiz.renderChoices(q.choices, index)
+      q.renderedChoices = SepsisQuiz.renderChoices(q)
 
       return q
     })
@@ -137,7 +141,6 @@ class SepsisQuiz {
 
   /**
    * Processes the current question and then moves onto the next question
-   * @param userInput
    */
   processQuestion(questionIndex, userInput) {
     const question = this.questions[questionIndex]
@@ -337,7 +340,8 @@ jQuery(document).ready(function ($) {
     const res = sepsisQuiz.processQuestion(qId, val)
 
     if (res !== null) {
-      $(e.target).addClass(res ? 'correct' : 'incorrect')
+      $(e.target).parent().addClass(res ? 'correct selected' : 'incorrect selected')
+      $(`#question-${qId}`).addClass('already_answered')
       $(`#learn-more-${qId}`).css({'display':'flex'})
       $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal')
     }
@@ -345,5 +349,4 @@ jQuery(document).ready(function ($) {
     renderStats()
   }
 
-  console.log('quiz:', sepsisQuiz)
 })
