@@ -28,10 +28,6 @@ wp_head(); ?>
             <div class="card-container">
                   <div class="question">Question</div>
                   <div class="choices">
-                        <div>Choice A</div>
-                        <div>Choice B</div>
-                        <div>Choice C</div>
-                        <div>Choice D</div>
                   </div>
             </div>
 

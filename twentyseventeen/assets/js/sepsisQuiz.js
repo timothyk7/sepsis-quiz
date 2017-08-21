@@ -68,8 +68,7 @@ var SepsisQuiz = function () {
 
       return question.choices.reduce(function (html, choice, i) {
         var id = 'choice-' + i;
-        var icon = answer === choice ? 'check' : 'times';
-        return html + ' <div class="field"><label for="id"><i class="fa fa-' + icon + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
+        return html + ' <div class="field ' + (choice === answer ? 'bingo' : '') + '"><label for="id"><i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
       }, '');
     }
   }, {
@@ -160,6 +159,7 @@ var SepsisQuiz = function () {
 
   return SepsisQuiz;
 }();
+
 // Loads code on screen
 
 
@@ -281,10 +281,19 @@ jQuery(document).ready(function ($) {
     var res = sepsisQuiz.processQuestion(qId, val);
 
     if (res !== null) {
-      $(e.target).parent().addClass(res ? 'correct selected' : 'incorrect selected');
-      $('#question-' + qId).addClass('already_answered');
-      $('#learn-more-' + qId).css({ 'display': 'flex' });
-      $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
+      var parentField = $(e.target).parent();
+      var classNames = 'disabled ';
+      parentField.siblings('.field').addClass(classNames);
+
+      classNames += res ? 'correct ' : 'incorrect ';
+      // mark the target field disabled and selected..
+      parentField.addClass(classNames + 'selected ' + (res ? 'correct ' : 'incorrect '));
+      // display those awesome icons
+      parentField.find('i').addClass('fa fa-' + (res ? 'check' : 'times'));
+      parentField.find('.fa').css('display', 'inline-block');
+
+      $('#question-' + qId).addClass('answered');
+      $('#learn-more-' + qId).addClass('under-card-bottom-reveal').css({ 'display': 'flex' });
     }
 
     renderStats();
