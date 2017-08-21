@@ -11,7 +11,10 @@ var SepsisQuiz = function () {
 
     this.questions = SepsisQuiz.buildQuestions(questions);
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions);
+    this.status = 'new';
     this.score = 0;
+    this.totalQuestions = this.questions.length;
+    this.totalAnsweredQuestions = 0;
   }
 
   _createClass(SepsisQuiz, [{
@@ -44,11 +47,18 @@ var SepsisQuiz = function () {
       if (!userInput || question.userSelected !== undefined) {
         return null;
       }
+      this.status = 'in_progress';
       var expectedAnswer = typeof question.answer === 'boolean' ? question.answer ? allOfTheAbove : noneOfTheAbove : question.answer;
       var isCorrect = userInput === expectedAnswer;
 
       this.score += isCorrect;
-      this.questions[questionIndex].userSelected = userInput;
+      question.userSelected = userInput;
+
+      this.totalAnsweredQuestions++;
+
+      if (this.totalAnsweredQuestions === this.questions.length) {
+        this.status = 'completed';
+      }
 
       return isCorrect;
     }
@@ -69,7 +79,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question ' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -142,7 +152,6 @@ var SepsisQuiz = function () {
 
   return SepsisQuiz;
 }();
-
 // Loads code on screen
 
 
@@ -232,8 +241,17 @@ jQuery(document).ready(function ($) {
 
   var sepsisQuiz = new SepsisQuiz(questions);
 
+  render(sepsisQuiz);
+  renderStats();
+
+  function renderStats() {
+    $('#score').html(sepsisQuiz.score);
+    $('#status').html(sepsisQuiz.status);
+    $('#answered_count').html(sepsisQuiz.totalAnsweredQuestions);
+    $('#total_count').html(sepsisQuiz.totalQuestions);
+  }
+
   function render(sepsisQuiz) {
-    /* ------ status ------ */
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
@@ -247,8 +265,6 @@ jQuery(document).ready(function ($) {
     $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
 
-  render(sepsisQuiz);
-
   /* ------ event handlers ------ */
   function onSelect(e) {
     var qId = $(e.target).attr('data-question-id');
@@ -261,6 +277,8 @@ jQuery(document).ready(function ($) {
       $('#learn-more-' + qId).css({ 'display': 'flex' });
       $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
     }
+
+    renderStats();
   }
 
   console.log('quiz:', sepsisQuiz);
