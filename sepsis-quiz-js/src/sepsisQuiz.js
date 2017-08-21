@@ -81,9 +81,14 @@ class SepsisQuiz {
 
     let choices = []
 
-    /*all of the  above*/
+    // when the correct answer is "all of the  above" or "none of the above"
     if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
-      answer = allOfTheAbove
+      answer = answer ? allOfTheAbove : noneOfTheAbove
+      choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
+    }
+    // when the one of the incorrect answers is "all of the  above" or "none of the above"
+    else if (wrongAnswers.find(wa => wa === noneOfTheAbove || wa === allOfTheAbove)) {
+      wrongAnswers = wrongAnswers.filter(wa => wa !== noneOfTheAbove && wa !== allOfTheAbove);
       choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
     }
 
