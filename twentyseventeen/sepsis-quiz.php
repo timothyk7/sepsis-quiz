@@ -9,8 +9,7 @@ wp_head(); ?>
 <head>
     <meta charset="UTF-8">
     <title>Sepsis</title>
-//    <link href="http://meyerweb.com/eric/tools/css/reset/reset.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
@@ -20,7 +19,7 @@ wp_head(); ?>
     <div id="questions_container" class="question-container">
         <!-- QUESTION -->
         <div class="question-container">
-            <div class="question-number">Question #</div>
+            <div class="question-number">Question</div>
             <div class="under-card-top under-card-top-hide"></div>
 
             <!-- MAIN CARD -->

@@ -137,7 +137,7 @@ class SepsisQuiz {
     if (!userInput || question.userSelected !== undefined) {
       return null
     }
-    const expectedAnswer = typeof question.answer === 'boolean' ? question.answer ? allOfTheAbove : noneOfTheAbove : question.answer
+    const expectedAnswer = typeof question.answer === 'boolean' ? (question.answer ? allOfTheAbove : noneOfTheAbove) : question.answer
     const isCorrect = userInput === expectedAnswer
 
     this.score += isCorrect
