@@ -28,7 +28,7 @@ class SepsisQuiz {
               ${question.renderedChoices}
             </div>
           </div>
-          <div class="under-card-bottom-container">
+          <div id="learn-more-${idx}" class="under-card-bottom-container">
             <div class="under-card-bottom">
               <div>${question.learnMore.text}</div>
               <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
@@ -316,6 +316,8 @@ jQuery(document).ready(function ($) {
 
     if (res !== null) {
       $(e.target).addClass(res ? 'correct' : 'incorrect')
+      $(`#learn-more-${qId}`).css({'display':'flex'})
+      $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal')
     }
   }
 

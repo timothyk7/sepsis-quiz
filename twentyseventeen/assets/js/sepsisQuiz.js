@@ -69,7 +69,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question #' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -258,6 +258,8 @@ jQuery(document).ready(function ($) {
 
     if (res !== null) {
       $(e.target).addClass(res ? 'correct' : 'incorrect');
+      $('#learn-more-' + qId).css({ 'display': 'flex' });
+      $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
     }
   }
 

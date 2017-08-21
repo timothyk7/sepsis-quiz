@@ -50,14 +50,14 @@ card-container
    padding: 30px 0;
 }
 .share-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-    padding: 30px 0;
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   width: 100%;
+   padding: 30px 0;
 }
 .under-card-bottom-container {
-   display: flex;
+   display: none;
    justify-content: center;
    height: auto;
    overflow-y: hidden;
@@ -160,10 +160,10 @@ MAIN CARD CONTENTS
 }
 
 .share {
-    font-size: 30px;
-    font-weight: 500;
-    width: 100%;
-    margin-bottom: 30px;
+   font-size: 30px;
+   font-weight: 500;
+   width: 100%;
+   margin-bottom: 30px;
 }
 
 /*
@@ -186,16 +186,16 @@ BOTTOM CARD CONTENTS
 }
 
 .share-block {
-    display: inline-block;
-    margin-top: 20px;
+   display: inline-block;
+   margin-top: 20px;
 }
 .share-block a {
-    font-weight: 300;
-    color: white;
-    text-decoration: none;
+   font-weight: 300;
+   color: white;
+   text-decoration: none;
 }
 .share-block .fa {
-    padding-left: 4px;
+   padding-left: 4px;
 }
 
 /*
@@ -209,18 +209,15 @@ BUTTON
 ANIMATION
 */
 .under-card-bottom-reveal {
-   animation: reveal 1.5s cubic-bezier(1.000, 0.000, 0.500, 1.000) forwards;
+   animation: reveal 0.5s cubic-bezier(1.000, 0.000, 0.500, 1.000) forwards;
 }
 
 .under-card-top-hide {
-   animation: hide 1.5s cubic-bezier(1.000, 0.000, 0.500, 1.000) forwards;
+   animation: hide 1.0s cubic-bezier(1.000, 0.000, 0.500, 1.000) forwards;
 }
 
 @keyframes reveal {
    0% {
-      transform: translateY(-100%);
-   }
-   70% {
       transform: translateY(-100%);
    }
    100% {
