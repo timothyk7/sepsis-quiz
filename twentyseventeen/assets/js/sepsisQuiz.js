@@ -21,7 +21,7 @@ var SepsisQuiz = function () {
     key: 'renderShareBlock',
     value: function renderShareBlock(tweet) {
       var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
-      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
+      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container-share">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
     }
 
     /**
@@ -79,7 +79,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question ' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div class="under-card-bottom-container">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question ' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -274,6 +274,8 @@ jQuery(document).ready(function ($) {
 
     if (res !== null) {
       $(e.target).addClass(res ? 'correct' : 'incorrect');
+      $('#learn-more-' + qId).css({ 'display': 'flex' });
+      $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
     }
 
     renderStats();

@@ -31,7 +31,7 @@ class SepsisQuiz {
               ${question.renderedChoices}
             </div>
           </div>
-          <div class="under-card-bottom-container">
+          <div id="learn-more-${idx}" class="under-card-bottom-container-question">
             <div class="under-card-bottom">
               <div>${question.learnMore.text}</div>
               <div class="learn-more"><a href="${question.learnMore.link}" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
@@ -54,7 +54,7 @@ class SepsisQuiz {
                       Twitter</a>
           </div>
         </div>
-      <div class="under-card-bottom-container">
+      <div class="under-card-bottom-container-share">
         <div class="under-card-bottom">
           <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>
           <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -333,6 +333,8 @@ jQuery(document).ready(function ($) {
 
     if (res !== null) {
       $(e.target).addClass(res ? 'correct' : 'incorrect')
+      $(`#learn-more-${qId}`).css({'display':'flex'})
+      $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal')
     }
 
     renderStats()
