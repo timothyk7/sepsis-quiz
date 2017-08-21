@@ -4,6 +4,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var allOfTheAbove = 'All of the above';
 var noneOfTheAbove = 'None of the above';
+var tweet = {
+  text: 'Share Awareness',
+  url: 'http://www.sepsis.org/'
+};
 
 var SepsisQuiz = function () {
   function SepsisQuiz(questions) {
@@ -264,13 +268,6 @@ jQuery(document).ready(function ($) {
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions);
     $('input.choice').bind('click', onSelect);
-
-    /* ------ share ------ */
-    var tweet = {
-      text: 'Share Awareness',
-      url: 'http://www.sepsis.org/'
-    };
-    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
   }
 
   /* ------ event handlers ------ */
@@ -292,8 +289,13 @@ jQuery(document).ready(function ($) {
       parentField.find('i').addClass('fa fa-' + (res ? 'check' : 'times'));
       parentField.find('.fa').css('display', 'inline-block');
 
-      $('#question-' + qId).addClass('answered');
       $('#learn-more-' + qId).addClass('under-card-bottom-reveal').css({ 'display': 'flex' });
+      $('#learn-more-' + qId).css({ 'display': 'flex' });
+      $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
+
+      if (sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
+        $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
+      }
     }
 
     renderStats();
