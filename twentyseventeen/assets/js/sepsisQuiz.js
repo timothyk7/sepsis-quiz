@@ -88,29 +88,38 @@ var SepsisQuiz = function () {
 
       var choices = [];
 
-      /*all of the  above*/
+      // when the correct answer is "all of the  above" or "none of the above"
       if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
-        answer = allOfTheAbove;
+        answer = answer ? allOfTheAbove : noneOfTheAbove;
         choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
       }
-
-      /* multiple choice*/
-      else if (wrongAnswers instanceof Array) {
-          choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
-
-          // Hack to deal with our one none of the above (it's not the answer!)
-          var none = noneOfTheAbove;
-          var idx = choices.indexOf(none);
-          if (idx > -1) {
-            choices.splice(idx, 1);
-            choices.push(none);
-          }
+      // when the one of the incorrect answers is "all of the  above" or "none of the above"
+      else if (wrongAnswers.find(function (wa) {
+          return wa === noneOfTheAbove || wa === allOfTheAbove;
+        })) {
+          wrongAnswers = wrongAnswers.filter(function (wa) {
+            return wa !== noneOfTheAbove && wa !== allOfTheAbove;
+          });
+          choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
         }
 
-        /* true or false */
-        else if (typeof answer === 'boolean') {
-            choices = ['True.', 'False.'];
+        /* multiple choice*/
+        else if (wrongAnswers instanceof Array) {
+            choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
+
+            // Hack to deal with our one none of the above (it's not the answer!)
+            var none = noneOfTheAbove;
+            var idx = choices.indexOf(none);
+            if (idx > -1) {
+              choices.splice(idx, 1);
+              choices.push(none);
+            }
           }
+
+          /* true or false */
+          else if (typeof answer === 'boolean') {
+              choices = ['True.', 'False.'];
+            }
 
       return choices;
     }
