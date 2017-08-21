@@ -1,5 +1,9 @@
 const allOfTheAbove = 'All of the above'
 const noneOfTheAbove = 'None of the above'
+const tweet = {
+  text: 'Share Awareness',
+  url: 'http://www.sepsis.org/'
+}
 
 class SepsisQuiz {
   constructor(questions) {
@@ -320,13 +324,6 @@ jQuery(document).ready(function ($) {
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions)
     $('input.choice').bind('click', onSelect)
-
-    /* ------ share ------ */
-    var tweet = {
-      text: 'Share Awareness',
-      url: 'http://www.sepsis.org/'
-    }
-    $('#share_container').html(sepsisQuiz.renderShareBlock(tweet))
   }
 
   /* ------ event handlers ------ */
@@ -340,6 +337,11 @@ jQuery(document).ready(function ($) {
       $(e.target).addClass(res ? 'correct' : 'incorrect')
       $(`#learn-more-${qId}`).css({'display':'flex'})
       $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal')
+
+      if(sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
+        $('#share_container').html(sepsisQuiz.renderShareBlock(tweet))
+      }
+
     }
 
     renderStats()
