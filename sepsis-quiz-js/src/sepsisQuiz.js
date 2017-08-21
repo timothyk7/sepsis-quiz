@@ -5,7 +5,10 @@ class SepsisQuiz {
   constructor(questions) {
     this.questions = SepsisQuiz.buildQuestions(questions)
     this.renderedQuestions = SepsisQuiz.renderQuestions(this.questions)
+    this.status = 'new'
     this.score = 0
+    this.totalQuestions = this.questions.length
+    this.totalAnsweredQuestions = 0
   }
 
   static renderChoices(choices = [], questionId) {
@@ -20,7 +23,7 @@ class SepsisQuiz {
       return `
         ${html}
           <div class="question-container">
-          <div id="question-${idx}" class="question-number">Question #${idx + 1}</div>
+          <div id="question-${idx}" class="question-number">Question ${idx + 1}</div>
           <div class="under-card-top"></div>
           <div class="card-container">
             <div class="question">${question.questionText}</div>
@@ -137,17 +140,24 @@ class SepsisQuiz {
     if (!userInput || question.userSelected !== undefined) {
       return null
     }
+    this.status = 'in_progress'
     const expectedAnswer = typeof question.answer === 'boolean' ? (question.answer ? allOfTheAbove : noneOfTheAbove) : question.answer
     const isCorrect = userInput === expectedAnswer
 
     this.score += isCorrect
-    this.questions[questionIndex].userSelected = userInput
+    question.userSelected = userInput
+
+    this.totalAnsweredQuestions++
+
+    if (this.totalAnsweredQuestions === this.questions.length) {
+      this.status = 'completed'
+    }
 
     return isCorrect
   }
 
-}
 
+}
 // Loads code on screen
 jQuery(document).ready(function ($) {
 
@@ -290,8 +300,17 @@ jQuery(document).ready(function ($) {
 
   var sepsisQuiz = new SepsisQuiz(questions)
 
+  render(sepsisQuiz)
+  renderStats()
+
+  function renderStats() {
+    $('#score').html(sepsisQuiz.score)
+    $('#status').html(sepsisQuiz.status)
+    $('#answered_count').html(sepsisQuiz.totalAnsweredQuestions)
+    $('#total_count').html(sepsisQuiz.totalQuestions)
+  }
+
   function render(sepsisQuiz) {
-    /* ------ status ------ */
 
     /* ------ questions ------ */
     $('#questions_container').html(sepsisQuiz.renderedQuestions)
@@ -305,8 +324,6 @@ jQuery(document).ready(function ($) {
     $('#share_container').html(sepsisQuiz.renderShareBlock(tweet))
   }
 
-  render(sepsisQuiz)
-
   /* ------ event handlers ------ */
   function onSelect(e) {
     const qId = $(e.target).attr('data-question-id')
@@ -317,6 +334,8 @@ jQuery(document).ready(function ($) {
     if (res !== null) {
       $(e.target).addClass(res ? 'correct' : 'incorrect')
     }
+
+    renderStats()
   }
 
   console.log('quiz:', sepsisQuiz)
