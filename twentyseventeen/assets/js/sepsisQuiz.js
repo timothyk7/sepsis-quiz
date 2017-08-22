@@ -6,7 +6,8 @@ var allOfTheAbove = 'All of the above';
 var noneOfTheAbove = 'None of the above';
 var tweet = {
   text: 'Share Awareness',
-  url: 'http://www.sepsis.org/'
+  url: 'http://www.sepsis.org/',
+  redirect: 'http://www.sepsis.org/'
 };
 
 var SepsisQuiz = function () {
@@ -24,8 +25,9 @@ var SepsisQuiz = function () {
   _createClass(SepsisQuiz, [{
     key: 'renderShareBlock',
     value: function renderShareBlock(tweet) {
+      var fbLink = 'https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=' + encodeURIComponent(tweet.url) + '&redirect_uri=' + encodeURIComponent(tweet.redirect);
       var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
-      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container-share">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
+      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n            <a class="fb-button" href=' + fbLink + ' target="_blank">\n              Facebook\n</a>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n              Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container-share">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
     }
 
     /**
@@ -182,7 +184,7 @@ jQuery(document).ready(function ($) {
     wrongAnswers: ['A local infection, such as cellulitis or appendicitis.', 'An infection in the blood.', 'A contagious disease.'],
     answer: 'Your body\'s toxic response to an infection.',
     learnMore: {
-      text: 'More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It\'s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
+      text: 'More than 40% of Americans have never heard the word sepsis. It\'s your body\'s extreme and toxic response to an infection. It\'s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
       link: 'http://www.sepsis.org/sepsis/definition/'
     }
   }, {

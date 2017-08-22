@@ -2,7 +2,8 @@ const allOfTheAbove = 'All of the above'
 const noneOfTheAbove = 'None of the above'
 const tweet = {
   text: 'Share Awareness',
-  url: 'http://www.sepsis.org/'
+  url: 'http://www.sepsis.org/',
+  redirect: 'http://www.sepsis.org/'
 }
 
 class SepsisQuiz {
@@ -50,15 +51,17 @@ class SepsisQuiz {
   }
 
   renderShareBlock(tweet) {
+    var fbLink = `https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=${encodeURIComponent(tweet.url)}&redirect_uri=${encodeURIComponent(tweet.redirect)}`
     var twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet.text)}${tweet.url ? `&url=${encodeURIComponent(tweet.url)}` : ''}`
     return `
     <div class="under-card-top"></div>
     <div class="card-container">
       <div class="share">Share</div>
         <div class="choices">
-          <div>FaceBook</div>
+            <a class="fb-button" href=${fbLink} target="_blank">
+              Facebook</a>
             <a class="twitter-button" href=${twitterLink} target="_blank">
-                      Twitter</a>
+              Twitter</a>
           </div>
         </div>
       <div class="under-card-bottom-container-share">
