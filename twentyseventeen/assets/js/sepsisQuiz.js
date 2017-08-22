@@ -75,7 +75,7 @@ var SepsisQuiz = function () {
       return question.choices.reduce(function (html, choice, i) {
         var id = 'choice-' + i;
         var bingo = choice === answer ? 'bingo' : '';
-        return html + ' <div class="field ' + bingo + '"><label for="id"><i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
+        return '\n        ' + html + '\n        <div class="field ' + bingo + '">\n          <label for="id">\n            <i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n          </label>\n          <input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/>\n        </div>\n      ';
       }, '');
     }
   }, {
