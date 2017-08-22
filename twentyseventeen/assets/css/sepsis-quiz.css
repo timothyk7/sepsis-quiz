@@ -195,7 +195,7 @@ input[type="submit"]:focus {
     font-weight: 500;
 }
 
-.field.incorrect {
+.field.incorrect > input {
     color: #F1474C;
     background: transparent;
     font-weight: 500;
