@@ -1,5 +1,5 @@
-const allOfTheAbove = 'All of the above'
-const noneOfTheAbove = 'None of the above'
+const allOfTheAbove = 'All of the above.'
+const noneOfTheAbove = 'None of the above.'
 const tweet = {
   text: 'Share Awareness',
   url: 'http://www.sepsis.org/'
@@ -103,11 +103,6 @@ class SepsisQuiz {
     // when the correct answer is "all of the  above" or "none of the above"
     if (typeof answer === 'boolean' && wrongAnswers instanceof Array) {
       answer = answer ? allOfTheAbove : noneOfTheAbove
-      choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
-    }
-    // when the one of the incorrect answers is "all of the  above" or "none of the above"
-    else if (wrongAnswers.find(wa => wa === noneOfTheAbove || wa === allOfTheAbove)) {
-      wrongAnswers = wrongAnswers.filter(wa => wa !== noneOfTheAbove && wa !== allOfTheAbove)
       choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
     }
 

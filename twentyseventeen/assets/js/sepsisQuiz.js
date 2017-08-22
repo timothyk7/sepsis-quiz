@@ -2,8 +2,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var allOfTheAbove = 'All of the above';
-var noneOfTheAbove = 'None of the above';
+var allOfTheAbove = 'All of the above.';
+var noneOfTheAbove = 'None of the above.';
 var tweet = {
   text: 'Share Awareness',
   url: 'http://www.sepsis.org/'
@@ -98,28 +98,19 @@ var SepsisQuiz = function () {
         answer = answer ? allOfTheAbove : noneOfTheAbove;
         choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
       }
-      // when the one of the incorrect answers is "all of the  above" or "none of the above"
-      else if (wrongAnswers.find(function (wa) {
-          return wa === noneOfTheAbove || wa === allOfTheAbove;
-        })) {
-          wrongAnswers = wrongAnswers.filter(function (wa) {
-            return wa !== noneOfTheAbove && wa !== allOfTheAbove;
-          });
-          choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
-        }
 
-        /* multiple choice*/
-        else if (wrongAnswers instanceof Array) {
-            choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
+      /* multiple choice*/
+      else if (wrongAnswers instanceof Array) {
+          choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
 
-            // Hack to deal with our one none of the above (it's not the answer!)
-            var none = noneOfTheAbove;
-            var idx = choices.indexOf(none);
-            if (idx > -1) {
-              choices.splice(idx, 1);
-              choices.push(none);
-            }
+          // Hack to deal with our one none of the above (it's not the answer!)
+          var none = noneOfTheAbove;
+          var idx = choices.indexOf(none);
+          if (idx > -1) {
+            choices.splice(idx, 1);
+            choices.push(none);
           }
+        }
 
       return choices;
     }
