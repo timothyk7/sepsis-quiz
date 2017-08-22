@@ -228,8 +228,14 @@ SHARE
 .fb {
     background: #3B5998;
 }
+.fb:hover {
+    background: #517AD0;
+}
 .tw {
     background: #1DA1F3;
+}
+.tw:hover {
+    background: #1dcaff;
 }
 .cta-container {
     z-index: 3;
@@ -248,7 +254,9 @@ SHARE
     border-radius: 1000px;
     box-shadow: rgba(40,5,5,.3) 0 12px 30px;
 }
-
+.cta:hover {
+    background: #FE4B50;
+}
 .share-block {
     display: inline-block;
     margin-top: 20px;
