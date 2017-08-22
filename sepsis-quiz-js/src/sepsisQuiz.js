@@ -312,7 +312,7 @@ jQuery(document).ready(function ($) {
   var sepsisQuiz = new SepsisQuiz(questions)
 
   render(sepsisQuiz)
-  renderStats()
+  // renderStats()
 
   function renderStats() {
     $('#score').html(sepsisQuiz.score)
@@ -357,7 +357,7 @@ jQuery(document).ready(function ($) {
 
     }
 
-    renderStats()
+    // renderStats()
   }
 
 })
