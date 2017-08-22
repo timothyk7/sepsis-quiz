@@ -68,11 +68,12 @@ var SepsisQuiz = function () {
   }], [{
     key: 'renderChoices',
     value: function renderChoices(question) {
-      var answer = question.answer;
+      var answer = typeof question.answer === 'boolean' ? question.answer ? allOfTheAbove : noneOfTheAbove : question.answer;
 
       return question.choices.reduce(function (html, choice, i) {
         var id = 'choice-' + i;
-        return html + ' <div class="field ' + (choice === answer ? 'bingo' : '') + '"><label for="id"><i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
+        var bingo = choice === answer ? 'bingo' : '';
+        return html + ' <div class="field ' + bingo + '"><label for="id"><i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
       }, '');
     }
   }, {

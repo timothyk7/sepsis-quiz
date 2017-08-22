@@ -16,11 +16,12 @@ class SepsisQuiz {
   }
 
   static renderChoices(question) {
-    const answer = question.answer
+    const answer = typeof question.answer === 'boolean' ? (question.answer ? allOfTheAbove : noneOfTheAbove) : question.answer
 
     return question.choices.reduce((html, choice, i) => {
       const id = `choice-${i}`
-      return `${html} <div class="field ${choice === answer ? 'bingo' : ''}"><label for="id"><i class="${ choice === answer ? 'fa fa-check' : ''}" aria-hidden="true"></i>
+      const bingo = choice === answer ? 'bingo' : ''
+      return `${html} <div class="field ${bingo}"><label for="id"><i class="${ choice === answer ? 'fa fa-check' : ''}" aria-hidden="true"></i>
 </label><input id="${id}" data-question-id="${question.id}" class="choice" value="${choice}" type="submit"/></div>`
     }, '')
   }
