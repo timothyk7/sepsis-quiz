@@ -43,7 +43,6 @@ var SepsisQuiz = function () {
 
     /**
      * Processes the current question and then moves onto the next question
-     * @param userInput
      */
     value: function processQuestion(questionIndex, userInput) {
       var question = this.questions[questionIndex];
@@ -68,13 +67,12 @@ var SepsisQuiz = function () {
     }
   }], [{
     key: 'renderChoices',
-    value: function renderChoices() {
-      var choices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-      var questionId = arguments[1];
+    value: function renderChoices(question) {
+      var answer = question.answer;
 
-      return choices.reduce(function (html, choice, i) {
+      return question.choices.reduce(function (html, choice, i) {
         var id = 'choice-' + i;
-        return html + ' <div class="field"><input id="' + id + '" data-question-id="' + questionId + '" class="choice" value="' + choice + '" type="submit"/></div>';
+        return html + ' <div class="field ' + (choice === answer ? 'bingo' : '') + '"><label for="id"><i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
       }, '');
     }
   }, {
@@ -83,7 +81,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div class="question-container">\n          <div id="question-' + idx + '" class="question-number">Question ' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -142,7 +140,7 @@ var SepsisQuiz = function () {
       return questions.map(function (q, index) {
         q.id = index;
         q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || [];
-        q.renderedChoices = SepsisQuiz.renderChoices(q.choices, index);
+        q.renderedChoices = SepsisQuiz.renderChoices(q);
 
         return q;
       });
@@ -165,6 +163,7 @@ var SepsisQuiz = function () {
 
   return SepsisQuiz;
 }();
+
 // Loads code on screen
 
 
@@ -279,7 +278,18 @@ jQuery(document).ready(function ($) {
     var res = sepsisQuiz.processQuestion(qId, val);
 
     if (res !== null) {
-      $(e.target).addClass(res ? 'correct' : 'incorrect');
+      var parentField = $(e.target).parent();
+      var classNames = 'disabled ';
+      parentField.siblings('.field').addClass(classNames);
+
+      classNames += res ? 'correct ' : 'incorrect ';
+      // mark the target field disabled and selected..
+      parentField.addClass(classNames + 'selected ' + (res ? 'correct ' : 'incorrect '));
+      // display those awesome icons
+      parentField.find('i').addClass('fa fa-' + (res ? 'check' : 'times'));
+      parentField.find('.fa').css('display', 'inline-block');
+
+      $('#learn-more-' + qId).addClass('under-card-bottom-reveal').css({ 'display': 'flex' });
       $('#learn-more-' + qId).css({ 'display': 'flex' });
       $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
 
@@ -290,6 +300,4 @@ jQuery(document).ready(function ($) {
 
     renderStats();
   }
-
-  console.log('quiz:', sepsisQuiz);
 });

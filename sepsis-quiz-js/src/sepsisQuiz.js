@@ -15,10 +15,13 @@ class SepsisQuiz {
     this.totalAnsweredQuestions = 0
   }
 
-  static renderChoices(choices = [], questionId) {
-    return choices.reduce((html, choice, i) => {
+  static renderChoices(question) {
+    const answer = question.answer
+
+    return question.choices.reduce((html, choice, i) => {
       const id = `choice-${i}`
-      return `${html} <div class="field"><input id="${id}" data-question-id="${questionId}" class="choice" value="${choice}" type="submit"/></div>`
+      return `${html} <div class="field ${choice === answer ? 'bingo' : ''}"><label for="id"><i class="${ choice === answer ? 'fa fa-check' : ''}" aria-hidden="true"></i>
+</label><input id="${id}" data-question-id="${question.id}" class="choice" value="${choice}" type="submit"/></div>`
     }, '')
   }
 
@@ -26,8 +29,8 @@ class SepsisQuiz {
     return questions.reduce((html, question, idx) => {
       return `
         ${html}
-          <div class="question-container">
-          <div id="question-${idx}" class="question-number">Question ${idx + 1}</div>
+          <div id="question-${idx}" class="question-container">
+          <div class="question-number">Question ${idx + 1}</div>
           <div class="under-card-top"></div>
           <div class="card-container">
             <div class="question">${question.questionText}</div>
@@ -88,7 +91,7 @@ class SepsisQuiz {
     }
     // when the one of the incorrect answers is "all of the  above" or "none of the above"
     else if (wrongAnswers.find(wa => wa === noneOfTheAbove || wa === allOfTheAbove)) {
-      wrongAnswers = wrongAnswers.filter(wa => wa !== noneOfTheAbove && wa !== allOfTheAbove);
+      wrongAnswers = wrongAnswers.filter(wa => wa !== noneOfTheAbove && wa !== allOfTheAbove)
       choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
     }
 
@@ -124,7 +127,7 @@ class SepsisQuiz {
     return questions.map((q, index) => {
       q.id = index
       q.choices = SepsisQuiz.buildChoices(q.answer, q.wrongAnswers) || []
-      q.renderedChoices = SepsisQuiz.renderChoices(q.choices, index)
+      q.renderedChoices = SepsisQuiz.renderChoices(q)
 
       return q
     })
@@ -141,7 +144,6 @@ class SepsisQuiz {
 
   /**
    * Processes the current question and then moves onto the next question
-   * @param userInput
    */
   processQuestion(questionIndex, userInput) {
     const question = this.questions[questionIndex]
@@ -165,8 +167,8 @@ class SepsisQuiz {
     return isCorrect
   }
 
-
 }
+
 // Loads code on screen
 jQuery(document).ready(function ($) {
 
@@ -334,7 +336,18 @@ jQuery(document).ready(function ($) {
     const res = sepsisQuiz.processQuestion(qId, val)
 
     if (res !== null) {
-      $(e.target).addClass(res ? 'correct' : 'incorrect')
+      const parentField = $(e.target).parent()
+      let classNames = 'disabled '
+      parentField.siblings('.field').addClass(classNames)
+
+      classNames += res ? 'correct ' : 'incorrect '
+      // mark the target field disabled and selected..
+      parentField.addClass(classNames + 'selected ' + (res ? 'correct ' : 'incorrect '))
+      // display those awesome icons
+      parentField.find('i').addClass(`fa fa-${res ? 'check' : 'times'}`)
+      parentField.find('.fa').css('display', 'inline-block')
+
+      $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal').css({ 'display': 'flex' })
       $(`#learn-more-${qId}`).css({'display':'flex'})
       $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal')
 
@@ -347,5 +360,4 @@ jQuery(document).ready(function ($) {
     renderStats()
   }
 
-  console.log('quiz:', sepsisQuiz)
 })

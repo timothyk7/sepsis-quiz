@@ -9,22 +9,21 @@ body {
 button,
 input[type="button"],
 input[type="submit"] {
-    background: transparent;
-    border: 0;
-    -webkit-border-radius: 2px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    color: black;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1;
-    padding: 1em 2em;
-    text-shadow: none;
-    -webkit-transition: background 0.2s;
-    transition: background 0.2s;
+   background: white;
+   border: 0;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: none;
+   box-shadow: none;
+   color: black;
+   cursor: pointer;
+   display: inline-block;
+   font-size: 14px;
+   font-weight: 400;
+   line-height: 1;
+   padding: 1em 2em;
+   text-shadow: none;
+   -webkit-transition: background 0.2s;
+   transition: background 0.2s;
 }
 
 /*
@@ -75,12 +74,13 @@ card-container
 QUESTION
 */
 .question-number {
-    font-size: 36px;
-    font-weight: 100;
-    text-transform: uppercase;
-    color: #9D1D21;
-    text-align: center;
-    padding: 20px 0;
+   font-size: 36px;
+   font-weight: 100;
+   text-transform: uppercase;
+   color: #9D1D21;
+   opacity: .7;
+   text-align: center;
+   padding: 20px 0;
 }
 
 /*
@@ -97,13 +97,13 @@ CARDS
 }
 
 .card-container {
-    background: white;
-    color: #444443;
-    text-align: center;
-    padding: 60px;
-    border-radius: 15px;
-    box-shadow: rgba(40, 5, 5, .3) 0 12px 30px;
-    z-index: 3;
+   background: white;
+   color: #444443;
+   text-align: center;
+   padding: 60px 40px;
+   border-radius: 15px;
+   box-shadow: rgba(40, 5, 5, .3) 0 12px 30px;
+   z-index: 3;
 }
 
 .under-card-bottom {
@@ -138,33 +138,68 @@ MAIN CARD CONTENTS
 }
 
 .field {
-    margin: .5em 0;
-    display: block;
+   margin: .5em 0;
+   display: flex;
+   align-items: center;
 }
 
-.field > input:hover {
-    background: #EBEBEB;
+.field .fa {
+   display: none;
+}
+
+.field .fa.fa-check {
+   color: #1DE9B6;
+}
+
+.field .fa.fa-times {
+   color: #F1474C;
 }
 
 .field > input {
-    border-radius: 1000px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 24px;
-    font-weight: 300;
-    padding: 18px 0;
-    width: 100%;
+   background: white;
+   border-radius: 1000px;
+   cursor: pointer;
+   display: inline-block;
+   flex-grow: 1;
+   font-size: 21px;
+   font-weight: 300;
+   padding: 18px 6px;
 }
 
-.field > input.correct {
-    background: #1DE9B6;
-    color: white;
-    font-weight: 500;
+.field input:hover,
+input[type="submit"]:focus {
+   background: white;
+   cursor: pointer;
 }
 
-.field > input.incorrect {
-    color: #F1474C;
-    background: transparent;
+.field.disabled.correct input, .field.disabled.bingo input {
+   background: #1DE9B6;
+   color: white;
+   cursor: inherit;
+   /*padding: 16px;*/
+}
+
+.field.disabled .fa {
+   display: inline-block;
+}
+
+.field label {
+   width: 10%;
+   padding: 0.3em;
+   margin-bottom: 0;
+}
+
+.field.correct > input {
+   background: #1DE9B6;
+   color: white;
+   font-weight: 500;
+}
+
+.field.incorrect {
+   color: #F1474C;
+   background: transparent;
+   font-weight: 500;
+
 }
 
 .share {
@@ -212,7 +247,7 @@ BOTTOM CARD CONTENTS
 BUTTON
 */
 .twitter-button {
-    background-color: #00aced;
+   background-color: #00aced;
 }
 
 /*
