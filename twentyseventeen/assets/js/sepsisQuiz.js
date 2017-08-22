@@ -121,11 +121,6 @@ var SepsisQuiz = function () {
             }
           }
 
-          /* true or false */
-          else if (typeof answer === 'boolean') {
-              choices = ['True.', 'False.'];
-            }
-
       return choices;
     }
 
