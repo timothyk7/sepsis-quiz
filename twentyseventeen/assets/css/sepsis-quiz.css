@@ -202,13 +202,6 @@ input[type="submit"]:focus {
 
 }
 
-.share {
-    font-size: 30px;
-    font-weight: 500;
-    width: 100%;
-    margin-bottom: 30px;
-}
-
 /*
 BOTTOM CARD CONTENTS
 */
@@ -228,6 +221,101 @@ BOTTOM CARD CONTENTS
     padding-left: 4px;
 }
 
+/*
+RESULTS
+*/
+.results {
+    margin-bottom: 60px;
+}
+
+/*
+CORRECT
+*/
+.correct-text {
+    color: white;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.bar-container {
+    display: relative;
+    text-align: center;
+    margin-bottom: 60px;
+}
+.bar-total {
+    height: 18px;
+    background: #9D1D21;
+    border-radius: 1000px;
+    max-width: 400px;
+    transform: translateX(25%)
+}
+.bar-correct {
+    height: 100%;
+    border-radius: 1000px;
+    width: 70%;
+    background: #00c3ff; /* Old browsers */
+    background: -moz-linear-gradient(left,  #00c3ff 0%, #1de9b6 50%, #ffff1c 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #00c3ff 0%,#1de9b6 50%,#ffff1c 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #00c3ff 0%,#1de9b6 50%,#ffff1c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00c3ff', endColorstr='#ffff1c',GradientType=1 ); /* IE6-9 */
+}
+
+
+/*
+SHARE
+*/
+.share-text {
+    padding-top: 40px;
+}
+.share-the-quiz {
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+.share {
+    color: white;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 18px;
+}
+.share-container {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+.fb {
+    background: #3B5998;
+}
+.fb:hover {
+    background: #517AD0;
+}
+.tw {
+    background: #1DA1F3;
+}
+.tw:hover {
+    background: #1dcaff;
+}
+.cta-container {
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -60px;
+    transform: translateY(-27px);
+}
+.cta {
+    color: white;
+    text-decoration: none;
+    background: #F1474C;
+    text-align: center;
+    font-size: 18px;
+    padding: 18px 42px;
+    border-radius: 1000px;
+    box-shadow: rgba(40,5,5,.3) 0 12px 30px;
+}
+.cta:hover {
+    background: #FE4B50;
+}
 .share-block {
     display: inline-block;
     margin-top: 20px;
@@ -244,17 +332,10 @@ BOTTOM CARD CONTENTS
 }
 
 /*
-BUTTON
-*/
-.twitter-button {
-   background-color: #00aced;
-}
-
-/*
 ANIMATION
 */
 .under-card-bottom-reveal {
-    animation: reveal 0.5s cubic-bezier(1.000, 0.000, 0.500, 1.000) forwards;
+    animation: reveal 1.0s cubic-bezier(1.000, 0.000, 0.500, 1.000) forwards;
 }
 
 .under-card-top-hide {
