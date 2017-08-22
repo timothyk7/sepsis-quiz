@@ -168,7 +168,7 @@ MAIN CARD CONTENTS
 
 .field input:hover,
 input[type="submit"]:focus {
-   background: white;
+   background: #EBEBEB;
    cursor: pointer;
 }
 
