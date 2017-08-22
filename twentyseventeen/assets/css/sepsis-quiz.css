@@ -239,7 +239,6 @@ CORRECT
 }
 
 .bar-container {
-    display: relative;
     text-align: center;
     margin-bottom: 60px;
 }
@@ -249,7 +248,10 @@ CORRECT
     background: #9D1D21;
     border-radius: 1000px;
     max-width: 400px;
-    transform: translateX(25%)
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .bar-correct {
@@ -373,5 +375,14 @@ ANIMATION
     }
     100% {
         transform: translateY(10px);
+    }
+}
+
+/*
+ MOBILE
+ */
+@media only screen and (max-device-width: 640px) {
+    .main-container {
+        width: calc(100% - 40px);
     }
 }
