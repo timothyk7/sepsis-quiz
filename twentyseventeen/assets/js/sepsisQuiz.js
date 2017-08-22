@@ -25,7 +25,9 @@ var SepsisQuiz = function () {
     key: 'renderShareBlock',
     value: function renderShareBlock(tweet) {
       var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
-      return '\n    <div class="under-card-top"></div>\n    <div class="card-container">\n      <div class="share">Share</div>\n        <div class="choices">\n          <div>FaceBook</div>\n            <a class="twitter-button" href=' + twitterLink + ' target="_blank">\n                      Twitter</a>\n          </div>\n        </div>\n      <div class="under-card-bottom-container-share">\n        <div class="under-card-bottom">\n          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>\n          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    ';
+      var percentage = this.score / this.totalQuestions * 100;
+      var message = 'Message';
+      return '\n    <div class="main-container results">\n      <div class="bar-container">\n          <div class="correct-text">You got ' + this.score + ' out of ' + this.totalQuestions + ' correct!</div>\n          <div class="bar-total"><div class="bar-correct" style="width:' + percentage + '%"></div></div>\n      </div>\n      <div class="under-card-top"></div>\n      <div class="card-container">\n            <div class="question">' + message + '</div>\n            <div class="share-the-quiz">Share the quiz:</div>\n            <div class="choices">\n                <a href="" class="share"><div class="share-container fb">Facebook</div></a>\n                <a href=' + twitterLink + ' target="_blank" class="share"><div class="share-container tw">Twitter</div></a>\n            </div>\n      </div>\n      <div class="cta-container"><a href="http://www.sepsis.org/newsletter/" target="_blank" class="cta">Sign Up for Our Newsletter</a></div>\n      <div class="under-card-bottom-container-share">\n          <div class="under-card-bottom under-card-bottom-reveal">\n              <div class="share-text">Support the Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>\n              <div class="learn-more"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now <i class="fa fa-angle-right" aria-hidden="true"></i>\n              </a></div>\n          </div>\n      </div>\n    </div>\n    ';
     }
 
     /**
@@ -81,7 +83,7 @@ var SepsisQuiz = function () {
       var questions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       return questions.reduce(function (html, question, idx) {
-        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
+        return '\n        ' + html + '\n          <div id="question-' + idx + '" class="question-container">\n          <div class="question-number">Question ' + (idx + 1) + '</div>\n          <div id="under-card-top-' + idx + '" class="under-card-top"></div>\n          <div class="card-container">\n            <div class="question">' + question.questionText + '</div>\n            <div class="choices">\n              ' + question.renderedChoices + '\n            </div>\n          </div>\n          <div id="learn-more-' + idx + '" class="under-card-bottom-container-question">\n            <div class="under-card-bottom">\n              <div>' + question.learnMore.text + '</div>\n              <div class="learn-more"><a href="' + question.learnMore.link + '" target="_blank">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>\n            </div>\n          </div>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -182,7 +184,7 @@ jQuery(document).ready(function ($) {
     wrongAnswers: ['A local infection, such as cellulitis or appendicitis.', 'An infection in the blood.', 'A contagious disease.'],
     answer: 'Your body\'s toxic response to an infection.',
     learnMore: {
-      text: 'More than 40% of Americans have never heard the word sepsis. It’s your body’s extreme and toxic response to an infection. It\'s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
+      text: 'More than 40% of Americans have never heard the word sepsis. It\'s your body\'s extreme and toxic response to an infection. It\'s life threatening and, without the right treatment, can cause organ failure, amputation, and death.',
       link: 'http://www.sepsis.org/sepsis/definition/'
     }
   }, {
@@ -289,9 +291,8 @@ jQuery(document).ready(function ($) {
       parentField.find('i').addClass('fa fa-' + (res ? 'check' : 'times'));
       parentField.find('.fa').css('display', 'inline-block');
 
+      $('#under-card-top-' + qId).addClass('under-card-top-hide');
       $('#learn-more-' + qId).addClass('under-card-bottom-reveal').css({ 'display': 'flex' });
-      $('#learn-more-' + qId).css({ 'display': 'flex' });
-      $('#learn-more-' + qId).addClass('under-card-bottom-reveal');
 
       if (sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
         $('#share_container').html(sepsisQuiz.renderShareBlock(tweet));
