@@ -1,9 +1,9 @@
 const allOfTheAbove = 'All of the above.'
 const noneOfTheAbove = 'None of the above.'
-const tweet = {
-  text: 'Share Awareness',
-  url: 'http://www.sepsis.org/',
-  redirect: 'http://www.sepsis.org/'
+const shareObject = {
+  text: 'Every 2 minutes someone dies from sepsis in the U.S. Join us in raising awareness and saving lives from #sepsis',
+  url: 'http://www.sepsis.org/sepsisawarenessmonth/',
+  redirect: 'http://www.sepsis.org/sepsisawarenessmonth/'
 }
 
 class SepsisQuiz {
@@ -58,11 +58,11 @@ class SepsisQuiz {
     }, '')
   }
 
-  renderShareBlock(tweet) {
-    var fbLink = `https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=${encodeURIComponent(tweet.url)}&redirect_uri=${encodeURIComponent(tweet.redirect)}`
-    const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet.text)}${tweet.url ? `&url=${encodeURIComponent(tweet.url)}` : ''}`
+  renderShareBlock(shareBlock) {
+    const fbLink = `https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=${encodeURIComponent(shareBlock.url)}&redirect_uri=${encodeURIComponent(shareBlock.redirect)}`
+    const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareBlock.text)}${shareBlock.url ? `&url=${encodeURIComponent(shareBlock.url)}` : ''}`
     const percentage = (this.score/this.totalQuestions)*100;
-    const message = 'Message';
+    const message = 'Our mission is to save lives and reduce suffering by raising awareness of sepsis as a medical emergency.';
     return `
     <div class="main-container results">
       <div class="bar-container">
@@ -359,7 +359,7 @@ jQuery(document).ready(function ($) {
       $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal').css({ 'display': 'flex' })
 
       if(sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
-        $('#share_container').html(sepsisQuiz.renderShareBlock(tweet))
+        $('#share_container').html(sepsisQuiz.renderShareBlock(shareObject))
       }
 
     }
