@@ -1,5 +1,5 @@
-const allOfTheAbove = 'All of the above'
-const noneOfTheAbove = 'None of the above'
+const allOfTheAbove = 'All of the above.'
+const noneOfTheAbove = 'None of the above.'
 const tweet = {
   text: 'Share Awareness',
   url: 'http://www.sepsis.org/',
@@ -17,12 +17,20 @@ class SepsisQuiz {
   }
 
   static renderChoices(question) {
-    const answer = question.answer
+    const answer = typeof question.answer === 'boolean' ? (question.answer ? allOfTheAbove : noneOfTheAbove) : question.answer
 
     return question.choices.reduce((html, choice, i) => {
       const id = `choice-${i}`
-      return `${html} <div class="field ${choice === answer ? 'bingo' : ''}"><label for="id"><i class="${ choice === answer ? 'fa fa-check' : ''}" aria-hidden="true"></i>
-</label><input id="${id}" data-question-id="${question.id}" class="choice" value="${choice}" type="submit"/></div>`
+      const bingo = choice === answer ? 'bingo' : ''
+      return `
+        ${html}
+        <div class="field ${bingo}">
+          <label for="id">
+            <i class="${ choice === answer ? 'fa fa-check' : ''}" aria-hidden="true"></i>
+          </label>
+          <input id="${id}" data-question-id="${question.id}" class="choice" value="${choice}" type="submit"/>
+        </div>
+      `
     }, '')
   }
 
@@ -99,11 +107,6 @@ class SepsisQuiz {
       answer = answer ? allOfTheAbove : noneOfTheAbove
       choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
     }
-    // when the one of the incorrect answers is "all of the  above" or "none of the above"
-    else if (wrongAnswers.find(wa => wa === noneOfTheAbove || wa === allOfTheAbove)) {
-      wrongAnswers = wrongAnswers.filter(wa => wa !== noneOfTheAbove && wa !== allOfTheAbove)
-      choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer)
-    }
 
     /* multiple choice*/
     else if (wrongAnswers instanceof Array) {
@@ -116,11 +119,6 @@ class SepsisQuiz {
         choices.splice(idx, 1)
         choices.push(none)
       }
-    }
-
-    /* true or false */
-    else if (typeof answer === 'boolean') {
-      choices = ['True.', 'False.']
     }
 
     return choices
@@ -322,7 +320,7 @@ jQuery(document).ready(function ($) {
   var sepsisQuiz = new SepsisQuiz(questions)
 
   render(sepsisQuiz)
-  renderStats()
+  // renderStats()
 
   function renderStats() {
     $('#score').html(sepsisQuiz.score)
@@ -366,7 +364,7 @@ jQuery(document).ready(function ($) {
 
     }
 
-    renderStats()
+    // renderStats()
   }
 
 })

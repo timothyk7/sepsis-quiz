@@ -2,8 +2,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var allOfTheAbove = 'All of the above';
-var noneOfTheAbove = 'None of the above';
+var allOfTheAbove = 'All of the above.';
+var noneOfTheAbove = 'None of the above.';
 var tweet = {
   text: 'Share Awareness',
   url: 'http://www.sepsis.org/',
@@ -72,11 +72,12 @@ var SepsisQuiz = function () {
   }], [{
     key: 'renderChoices',
     value: function renderChoices(question) {
-      var answer = question.answer;
+      var answer = typeof question.answer === 'boolean' ? question.answer ? allOfTheAbove : noneOfTheAbove : question.answer;
 
       return question.choices.reduce(function (html, choice, i) {
         var id = 'choice-' + i;
-        return html + ' <div class="field ' + (choice === answer ? 'bingo' : '') + '"><label for="id"><i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n</label><input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/></div>';
+        var bingo = choice === answer ? 'bingo' : '';
+        return '\n        ' + html + '\n        <div class="field ' + bingo + '">\n          <label for="id">\n            <i class="' + (choice === answer ? 'fa fa-check' : '') + '" aria-hidden="true"></i>\n          </label>\n          <input id="' + id + '" data-question-id="' + question.id + '" class="choice" value="' + choice + '" type="submit"/>\n        </div>\n      ';
       }, '');
     }
   }, {
@@ -99,33 +100,19 @@ var SepsisQuiz = function () {
         answer = answer ? allOfTheAbove : noneOfTheAbove;
         choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
       }
-      // when the one of the incorrect answers is "all of the  above" or "none of the above"
-      else if (wrongAnswers.find(function (wa) {
-          return wa === noneOfTheAbove || wa === allOfTheAbove;
-        })) {
-          wrongAnswers = wrongAnswers.filter(function (wa) {
-            return wa !== noneOfTheAbove && wa !== allOfTheAbove;
-          });
-          choices = SepsisQuiz.shuffleArray(wrongAnswers).concat(answer);
-        }
 
-        /* multiple choice*/
-        else if (wrongAnswers instanceof Array) {
-            choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
+      /* multiple choice*/
+      else if (wrongAnswers instanceof Array) {
+          choices = SepsisQuiz.shuffleArray(wrongAnswers.concat(answer)); // shuffle the array
 
-            // Hack to deal with our one none of the above (it's not the answer!)
-            var none = noneOfTheAbove;
-            var idx = choices.indexOf(none);
-            if (idx > -1) {
-              choices.splice(idx, 1);
-              choices.push(none);
-            }
+          // Hack to deal with our one none of the above (it's not the answer!)
+          var none = noneOfTheAbove;
+          var idx = choices.indexOf(none);
+          if (idx > -1) {
+            choices.splice(idx, 1);
+            choices.push(none);
           }
-
-          /* true or false */
-          else if (typeof answer === 'boolean') {
-              choices = ['True.', 'False.'];
-            }
+        }
 
       return choices;
     }
@@ -258,7 +245,7 @@ jQuery(document).ready(function ($) {
   var sepsisQuiz = new SepsisQuiz(questions);
 
   render(sepsisQuiz);
-  renderStats();
+  // renderStats()
 
   function renderStats() {
     $('#score').html(sepsisQuiz.score);
@@ -301,6 +288,6 @@ jQuery(document).ready(function ($) {
       }
     }
 
-    renderStats();
+    // renderStats()
   }
 });
