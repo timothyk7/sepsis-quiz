@@ -31,7 +31,7 @@ class SepsisQuiz {
         ${html}
           <div id="question-${idx}" class="question-container">
           <div class="question-number">Question ${idx + 1}</div>
-          <div class="under-card-top"></div>
+          <div id="under-card-top-${idx}" class="under-card-top"></div>
           <div class="card-container">
             <div class="question">${question.questionText}</div>
             <div class="choices">
@@ -50,25 +50,33 @@ class SepsisQuiz {
   }
 
   renderShareBlock(tweet) {
-    var twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet.text)}${tweet.url ? `&url=${encodeURIComponent(tweet.url)}` : ''}`
+    const twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet.text)}${tweet.url ? `&url=${encodeURIComponent(tweet.url)}` : ''}`
+    const percentage = (this.score/this.totalQuestions)*100;
+    const message = 'Message';
     return `
-    <div class="under-card-top"></div>
-    <div class="card-container">
-      <div class="share">Share</div>
-        <div class="choices">
-          <div>FaceBook</div>
-            <a class="twitter-button" href=${twitterLink} target="_blank">
-                      Twitter</a>
-          </div>
-        </div>
-      <div class="under-card-bottom-container-share">
-        <div class="under-card-bottom">
-          <div>Support the Sepsis Alliance during Sepsis Awareness Month. Say Sepsis. Save lives.</div>
-          <div class="share-block"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now<i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-          </div>
-        </div>
+    <div class="main-container results">
+      <div class="bar-container">
+          <div class="correct-text">You got ${this.score} out of ${this.totalQuestions} correct!</div>
+          <div class="bar-total"><div class="bar-correct" style="width:${percentage}%"></div></div>
       </div>
+      <div class="under-card-top"></div>
+      <div class="card-container">
+            <div class="question">${message}</div>
+            <div class="share-the-quiz">Share the quiz:</div>
+            <div class="choices">
+                <a href="" class="share"><div class="share-container fb">Facebook</div></a>
+                <a href=${twitterLink} target="_blank" class="share"><div class="share-container tw">Twitter</div></a>
+            </div>
+      </div>
+      <div class="cta-container"><a href="http://www.sepsis.org/newsletter/" target="_blank" class="cta">Sign Up for Our Newsletter</a></div>
+      <div class="under-card-bottom-container-share">
+          <div class="under-card-bottom under-card-bottom-reveal">
+              <div class="share-text">Support the Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>
+              <div class="learn-more"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a></div>
+          </div>
+      </div>
+    </div>
     `
   }
 
@@ -347,9 +355,8 @@ jQuery(document).ready(function ($) {
       parentField.find('i').addClass(`fa fa-${res ? 'check' : 'times'}`)
       parentField.find('.fa').css('display', 'inline-block')
 
+      $(`#under-card-top-${qId}`).addClass('under-card-top-hide')
       $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal').css({ 'display': 'flex' })
-      $(`#learn-more-${qId}`).css({'display':'flex'})
-      $(`#learn-more-${qId}`).addClass('under-card-bottom-reveal')
 
       if(sepsisQuiz.totalAnsweredQuestions === sepsisQuiz.totalQuestions) {
         $('#share_container').html(sepsisQuiz.renderShareBlock(tweet))
