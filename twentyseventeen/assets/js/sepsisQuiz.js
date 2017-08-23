@@ -6,7 +6,8 @@ var allOfTheAbove = 'All of the above';
 var noneOfTheAbove = 'None of the above';
 var tweet = {
   text: 'Share Awareness',
-  url: 'http://www.sepsis.org/'
+  url: 'http://www.sepsis.org/',
+  redirect: 'http://www.sepsis.org/'
 };
 
 var SepsisQuiz = function () {
@@ -24,10 +25,11 @@ var SepsisQuiz = function () {
   _createClass(SepsisQuiz, [{
     key: 'renderShareBlock',
     value: function renderShareBlock(tweet) {
+      var fbLink = 'https://www.facebook.com/dialog/share?app_id=109576373057459&display=popup&href=' + encodeURIComponent(tweet.url) + '&redirect_uri=' + encodeURIComponent(tweet.redirect);
       var twitterLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweet.text) + (tweet.url ? '&url=' + encodeURIComponent(tweet.url) : '');
       var percentage = this.score / this.totalQuestions * 100;
       var message = 'Message';
-      return '\n    <div class="main-container results">\n      <div class="bar-container">\n          <div class="correct-text">You got ' + this.score + ' out of ' + this.totalQuestions + ' correct!</div>\n          <div class="bar-total"><div class="bar-correct" style="width:' + percentage + '%"></div></div>\n      </div>\n      <div class="under-card-top"></div>\n      <div class="card-container">\n            <div class="question">' + message + '</div>\n            <div class="share-the-quiz">Share the quiz:</div>\n            <div class="choices">\n                <a href="" class="share"><div class="share-container fb">Facebook</div></a>\n                <a href=' + twitterLink + ' target="_blank" class="share"><div class="share-container tw">Twitter</div></a>\n            </div>\n      </div>\n      <div class="cta-container"><a href="http://www.sepsis.org/newsletter/" target="_blank" class="cta">Sign Up for Our Newsletter</a></div>\n      <div class="under-card-bottom-container-share">\n          <div class="under-card-bottom under-card-bottom-reveal">\n              <div class="share-text">Support the Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>\n              <div class="learn-more"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now <i class="fa fa-angle-right" aria-hidden="true"></i>\n              </a></div>\n          </div>\n      </div>\n    </div>\n    ';
+      return '\n    <div class="main-container results">\n      <div class="bar-container">\n          <div class="correct-text">You got ' + this.score + ' out of ' + this.totalQuestions + ' correct!</div>\n          <div class="bar-total"><div class="bar-correct" style="width:' + percentage + '%"></div></div>\n      </div>\n      <div class="under-card-top"></div>\n      <div class="card-container">\n            <div class="question">' + message + '</div>\n            <div class="share-the-quiz">Share the quiz:</div>\n            <div class="choices">\n                <a href=' + fbLink + ' target="_blank" class="share"><div class="share-container fb">Facebook</div></a>\n                <a href=' + twitterLink + ' target="_blank" class="share"><div class="share-container tw">Twitter</div></a>\n            </div>\n      </div>\n      <div class="cta-container"><a href="http://www.sepsis.org/newsletter/" target="_blank" class="cta">Sign Up for Our Newsletter</a></div>\n      <div class="under-card-bottom-container-share">\n          <div class="under-card-bottom under-card-bottom-reveal">\n              <div class="share-text">Support the Sepsis Alliance during Sepsis Awareness Month. Say sepsis. Save lives.</div>\n              <div class="learn-more"><a href="https://donate.sepsis.org/checkout/donation?eid=31711" target="_blank">Donate Now <i class="fa fa-angle-right" aria-hidden="true"></i>\n              </a></div>\n          </div>\n      </div>\n    </div>\n    ';
     }
 
     /**
